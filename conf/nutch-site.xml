@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<property>
+ 		<name>storage.data.store.class</name>
+ 		<value>org.apache.gora.hbase.store.HBaseStore</value>
+ 		<description>Default class for storing data</description>
+	</property>
+	<property>
+		<name>fetcher.threads.per.queue</name>
+		<value>10</value>
+		<description>This number is the maximum number of threads that
+			should be allowed to access a queue at one time. Setting it to
+			a value > 1 will cause the Crawl-Delay value from robots.txt to
+			be ignored and the value of fetcher.server.min.delay to be used
+			as a delay between successive requests to the same server instead
+			of fetcher.server.delay.
+		</description>
+	</property>
+	<property>
+		<name>db.max.outlinks.per.page</name>
+		<value>500</value>
+		<description>The maximum number of outlinks that we'll process for a page.
+			If this value is nonnegative (>=0), at most db.max.outlinks.per.page outlinks
+			will be processed for a page; otherwise, all outlinks will be processed.
+		</description>
+	</property>
+	<property>
+		<name>fetcher.parse</name>
+		<value>false</value>
+		<description>If true, fetcher will parse content. NOTE: previous releases would
+			default to true. Since 2.0 this is set to false as a safer default.
+			事实上，我现在还不知道怎么控制parse的数目，因此我会对所有爬取的页面进行parse
+		</description>
+	</property>
+	<property>
+		<name>parser.timeout</name>
+		<value>30</value>
+		<description>Timeout in seconds for the parsing of a document, otherwise treats it as an exception and
+			moves on the the following documents. This parameter is applied to any Parser implementation.
+			Set to -1 to deactivate, bearing in mind that this could cause
+			the parsing to crash because of a very long or corrupted document.
+		</description>
+	</property>
+	<property>
+	  <name>http.agent.name</name>
+	  <value>My Nutch Spider</value>
+	 </property>
+        <property>
+          <name>plugin.includes</name>
+          <value>protocol-selenium|urlfilter-regex|parse-(html|tika|urlfilter)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
+          <description>Regular expression naming plugin directory names to
+          include.  Any plugin not matching this expression is excluded.
+          In any case you need at least include the nutch-extensionpoints plugin. By
+          default Nutch includes crawling just HTML and plain text via HTTP,
+          and basic indexing and search plugins. In order to use HTTPS please enable 
+          protocol-httpclient, but be aware of possible intermittent problems with the 
+          underlying commons-httpclient library.
+          </description>
+       </property>
+       <property>
+			<name>http.verbose</name>
+			<value>true</value>
+			<description>If true, HTTP will log more verbosely.</description>
+       </property>
+	   <property>
+			<name>elastic.host</name>
+			<value>10.100.138.172</value>
+		</property>
+		<property>
+			<name>elastic.port</name>
+			<value>9300</value>
+		</property>
+		<property>
+			<name>elastic.cluster</name>
+			<value>my-application</value>
+		</property>
+		<property>
+			<name>elastic.index</name>
+			<value>financial-test2</value>
+		</property>
+		<property>
+		  <name>elastic.max.bulk.docs</name>
+		  <value>1000</value>
+		  <description>Maximum size of the bulk in number of documents.</description>
+		</property>
+		<property>
+		  <name>elastic.max.bulk.size</name>
+		  <value>1000000</value>
+		  <description>Maximum size of the bulk in bytes.</description>
+		</property>
+</configuration>

@@ -1,0 +1,4 @@
++^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)
++^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)
++^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)
++^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)
