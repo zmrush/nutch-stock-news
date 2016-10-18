@@ -17,6 +17,9 @@ bin/
 gen/
 local.properties
 /target
+runtime/
+build/
+target/
 
 .DS_Store
 Thumbs.db
