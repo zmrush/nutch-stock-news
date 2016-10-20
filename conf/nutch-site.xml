@@ -83,6 +83,11 @@
 			<description>If true, HTTP will log more verbosely.</description>
        </property>
 	   <property>
+		   <name>http.content.limit</name>
+		   <value>262144</value>
+		   <description>我们将网页的大小调整成256KB</description>
+	   </property>
+	   <property>
 			<name>elastic.host</name>
 			<value>10.100.138.172</value>
 		</property>

@@ -67,6 +67,7 @@
      <ant dir="protocol-selenium" target="deploy"/>
      <ant dir="index-urlfilter" target="deploy"/>
      <ant dir="parse-urlfilter" target="deploy"/>
+      <ant dir="parse-nasdaq-financial" target="deploy"/>
      <!--
      <ant dir="feed" target="deploy"/>
      <ant dir="parse-ext" target="deploy"/>
@@ -109,6 +110,7 @@
      <ant dir="protocol-selenium" target="test"/>
      <ant dir="index-urlfilter" target="test"/>
      <ant dir="parse-urlfilter" target="test"/>
+      <ant dir="parse-nasdaq-financial" target="test"/>
      <!--
      <ant dir="feed" target="test"/>
      <ant dir="parse-ext" target="test"/>
@@ -166,5 +168,6 @@
     <ant dir="protocol-selenium" target="clean"/>
     <ant dir="index-urlfilter" target="clean"/>
     <ant dir="parse-urlfilter" target="clean"/>
+      <ant dir="parse-nasdaq-financial" target="clean"/>
   </target>
 </project>
