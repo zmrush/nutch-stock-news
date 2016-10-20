@@ -38,3 +38,4 @@
 # accept anything else
 #仅接受包含新浪的
 +.*(sina.com.cn).*
++.*(seekingalpha.com).*
