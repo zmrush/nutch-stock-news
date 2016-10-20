@@ -1055,6 +1055,12 @@
     <description>Name of file on CLASSPATH containing regular expressions
       used by urlfilter-regex (RegexURLFilter) plugin.</description>
   </property>
+  <property>
+    <name>nasdaq.regex.file</name>
+    <value>regex-nasdaq.txt</value>
+    <description>Name of file on CLASSPATH containing regular expressions
+      used by urlfilter-regex (RegexURLFilter) plugin.</description>
+  </property>
 
 <property>
   <name>urlfilter.automaton.file</name>

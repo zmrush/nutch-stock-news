@@ -145,7 +145,9 @@ public class InjectorJob extends NutchTool implements Tool {
       }
       try {
         url = urlNormalizers.normalize(url, URLNormalizers.SCOPE_INJECT);
+        //LOG.info("inject normalize:"+url);
         url = filters.filter(url); // filter the url
+        //LOG.info("inject filter:"+url);
       } catch (Exception e) {
         LOG.warn("Skipping " + url + ":" + e);
         url = null;

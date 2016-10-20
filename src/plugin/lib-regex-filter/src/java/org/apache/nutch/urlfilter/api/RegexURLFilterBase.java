@@ -160,6 +160,7 @@ public abstract class RegexURLFilterBase implements URLFilter {
    */
 
   public void setConf(Configuration conf) {
+    LOG.info(this.getClass().toString());
     this.conf = conf;
     Reader reader = null;
     try {
