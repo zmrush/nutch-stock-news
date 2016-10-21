@@ -67,7 +67,7 @@
 	 </property>
         <property>
           <name>plugin.includes</name>
-          <value>protocol-selenium|urlfilter-regex|parse-(html|tika|urlfilter)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
+          <value>protocol-selenium|urlfilter-regex|parse-(html|tika|urlfilter|seekingalpha)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
           <description>Regular expression naming plugin directory names to
           include.  Any plugin not matching this expression is excluded.
           In any case you need at least include the nutch-extensionpoints plugin. By
@@ -113,4 +113,9 @@
 		  <value>1000000</value>
 		  <description>Maximum size of the bulk in bytes.</description>
 		</property>
+	<property>
+		<name>seekingalphaindexingfilter.regex.file</name>
+		<value>seekingAlpha.txt</value>
+		<description>If true, HTTP will log more verbosely.</description>
+	</property>
 </configuration>
