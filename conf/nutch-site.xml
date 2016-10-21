@@ -101,7 +101,7 @@
 		</property>
 		<property>
 			<name>elastic.index</name>
-			<value>financial-test2</value>
+			<value>financial</value>
 		</property>
 		<property>
 		  <name>elastic.max.bulk.docs</name>

@@ -52,6 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IndexingJob extends NutchTool implements Tool {
+  private static final String MAGIC_NUMBER="197328";
 
   public static Logger LOG = LoggerFactory.getLogger(IndexingJob.class);
 
@@ -114,10 +115,11 @@ public class IndexingJob extends NutchTool implements Tool {
         return;
       }
       if (mark != null) {
-        Mark.INDEX_MARK.putMark(page, Mark.UPDATEDB_MARK.checkMark(page));
-        store.put(key, page);
+        Mark.INDEX_MARK.putMark(page, new Utf8(MAGIC_NUMBER));
+        store.put(key, page);//将更新后的page更新到数据库中
       }
-      context.write(key, doc);
+      //这里如果使用相同的key，会对上面写的结果造成干扰
+      context.write("ex-"+key, doc);
       context.getCounter("IndexerJob", "DocumentCount").increment(1);
     }
   }
