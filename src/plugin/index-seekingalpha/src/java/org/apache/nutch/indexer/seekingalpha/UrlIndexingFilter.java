@@ -43,10 +43,10 @@ import java.util.regex.PatternSyntaxException;
  * 
  * @see {@code anchorIndexingFilter.deduplicate} in nutch-default.xml.
  */
-public class UrlIndexingFilter extends RegexURLFilterBase implements IndexingFilter {
+public class SeekingAlplaIndexingFilter extends RegexURLFilterBase implements IndexingFilter {
 
   public static final Logger LOG = LoggerFactory
-      .getLogger(UrlIndexingFilter.class);
+      .getLogger(SeekingAlplaIndexingFilter.class);
   private Configuration conf;
 
   private static final Collection<WebPage.Field> FIELDS = new HashSet<WebPage.Field>();
@@ -55,16 +55,16 @@ public class UrlIndexingFilter extends RegexURLFilterBase implements IndexingFil
     FIELDS.add(WebPage.Field.HEADERS);
   }
 //-------------------------------------------------------------------------------------
-public UrlIndexingFilter() {
+public SeekingAlplaIndexingFilter() {
   super();
 }
 
-  public UrlIndexingFilter(String filename) throws IOException,
+  public SeekingAlplaIndexingFilter(String filename) throws IOException,
           PatternSyntaxException {
     super(filename);
   }
 
-  UrlIndexingFilter(Reader reader) throws IOException, IllegalArgumentException {
+  SeekingAlplaIndexingFilter(Reader reader) throws IOException, IllegalArgumentException {
     super(reader);
   }
   @Override
@@ -74,7 +74,7 @@ public UrlIndexingFilter() {
 
   @Override
   protected Reader getRulesReader(Configuration conf) throws IOException {
-    String fileRules = conf.get(URLINDEXINGFILTER_REGEX_FILE);
+    String fileRules = conf.get(SEEKINGALPHA_REGEX_FILE);
     return conf.getConfResourceAsReader(fileRules);
   }
   private class Rule extends RegexRule {
@@ -90,7 +90,7 @@ public UrlIndexingFilter() {
       return pattern.matcher(url).find();
     }
   }
-  public static final String URLINDEXINGFILTER_REGEX_FILE = "urlindexingfilter.regex.file";
+  public static final String SEEKINGALPHA_REGEX_FILE = "seekingalphaindexingfilter.regex.file";
   //----------------------------------------------------------------------------------
 
   /**
