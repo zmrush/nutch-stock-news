@@ -32,8 +32,9 @@ import org.apache.nutch.util.NodeWalker;
 import org.apache.nutch.util.TableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Node;
+//import org.w3c.dom.DocumentFragment;
+//import org.w3c.dom.Node;
+import org.w3c.dom.*;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -142,7 +143,7 @@ public UrlParsingFilter() {
          page.getHeaders().put(new Utf8("Source"),new Utf8("新浪财经"));
          return newParse;
        }else{
-         newParse=new Parse("","",parse.getOutlinks(),parse.getParseStatus());
+         newParse=new Parse(parse.getText(),parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
        }
     return newParse;
   }
@@ -153,6 +154,7 @@ public UrlParsingFilter() {
   private Combine walk(DocumentFragment root){
     Combine combine=new Combine();
     NodeWalker walker=new NodeWalker(root);
+    StringBuffer sb=new StringBuffer();
     while(walker.hasNext()){
       Node currentNode = walker.nextNode();
       String nodeName = currentNode.getNodeName();
@@ -172,6 +174,28 @@ public UrlParsingFilter() {
         combine.time=currentNode.getChildNodes().item(0).getNodeValue();
       }
       if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("id")!=null && currentNode.getAttributes().getNamedItem("id").getNodeValue().equalsIgnoreCase("artibody")){
+        NodeList nodeList=currentNode.getChildNodes();
+        for(int i=0;i<nodeList.getLength();i++){
+          Node childNode=nodeList.item(i);
+          if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("p")){
+            sb.append("<p>");
+            sb.append(childNode.getTextContent());
+            sb.append("</p>");
+          }
+          else if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("div")){
+            NamedNodeMap map=childNode.getAttributes();
+            if(map.getNamedItem("class")!=null && map.getNamedItem("class").getNodeValue().equalsIgnoreCase("img_wrapper")){
+              sb.append("<div>");
+              if(childNode.getChildNodes()!=null && childNode.getChildNodes().getLength()>0 && childNode.getFirstChild().getNodeName().equalsIgnoreCase("img")){
+                Node tmp=childNode.getFirstChild();
+                sb.append("<img src=\"");
+                sb.append(tmp.getAttributes().getNamedItem("src").getNodeValue());
+                sb.append("\"/>");
+              }
+              sb.append("</div>");
+            }
+          }
+        }
         combine.text=currentNode.getTextContent();
         break;
       }

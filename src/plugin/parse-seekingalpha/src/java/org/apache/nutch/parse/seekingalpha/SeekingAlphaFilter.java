@@ -32,8 +32,9 @@ import org.apache.nutch.util.NodeWalker;
 import org.apache.nutch.util.TableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Node;
+//import org.w3c.dom.DocumentFragment;
+//import org.w3c.dom.Node;
+import org.w3c.dom.*;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -139,10 +140,10 @@ public SeekingAlphaFilter() {
          Combine combine=walk(doc);
          newParse=new Parse(combine.text,parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
          page.getHeaders().put(new Utf8("EditTime"),new Utf8(combine.time));
-         page.getHeaders().put(new Utf8("Source"),new Utf8("新浪财经"));
+         page.getHeaders().put(new Utf8("Source"),new Utf8("Seeking Alpha"));
          return newParse;
        }else{
-         newParse=new Parse("","",parse.getOutlinks(),parse.getParseStatus());
+         newParse=new Parse(parse.getText(),parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
        }
     return newParse;
   }
