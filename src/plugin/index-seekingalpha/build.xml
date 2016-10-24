@@ -15,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="index-urlfilter" default="jar-core">
+<project name="index-seekingalpha" default="jar-core">
 
   <import file="../build-plugin.xml" />
   <!-- Build compilation dependencies -->

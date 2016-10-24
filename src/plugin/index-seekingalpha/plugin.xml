@@ -15,11 +15,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<plugin id="index-urlfilter" name="Urlfilter Indexing Filter" version="1.0.0"
+<plugin id="index-seekingalpha" name="seekingalpha Indexing Filter" version="1.0.0"
   provider-name="nutch.org">
 
   <runtime>
-    <library name="index-urlfilter.jar">
+    <library name="seekingalpha-urlfilter.jar">
       <export name="*" />
     </library>
   </runtime>
@@ -29,11 +29,11 @@
     <import plugin="lib-regex-filter"/>
   </requires>
 
-  <extension id="org.apache.nutch.indexer.urlfiter"
+  <extension id="org.apache.nutch.indexer.seekingalpha"
     name="Nutch Urlfilter Indexing Filter"
     point="org.apache.nutch.indexer.IndexingFilter">
-    <implementation id="UrlIndexingFilter"
-      class="org.apache.nutch.indexer.urlfilter.UrlIndexingFilter" />
+    <implementation id="SeekingalphaIndexingFilter"
+      class="org.apache.nutch.indexer.seekingalpha.SeekingAlplaIndexingFilter" />
   </extension>
 
 </plugin>
