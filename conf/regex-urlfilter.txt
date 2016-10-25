@@ -45,3 +45,5 @@
 +^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://seekingalpha.com/news/[^/]+$
 +^http://seekingalpha.com/market-news
+
++^http://www.investors.com/*
