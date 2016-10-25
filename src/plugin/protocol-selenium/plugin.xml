@@ -141,7 +141,11 @@
 
       <implementation id="org.apache.nutch.protocol.selenium.Http"
                       class="org.apache.nutch.protocol.selenium.Http">
-        <parameter name="protocolName" value="http"/>
+        <parameter name="protocolName" value="shttp"/>
+      </implementation>
+      <implementation id="org.apache.nutch.protocol.http.Http"
+                      class="org.apache.nutch.protocol.http.Http">
+         <parameter name="protocolName" value="shttps"/>
       </implementation>
 
    </extension>

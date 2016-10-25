@@ -41,7 +41,9 @@ public class HttpResponse implements Response {
     private byte[] content;
     private int code;
     private Metadata headers = new SpellCheckedMetadata();
-    
+    protected enum Scheme {
+        HTTP, HTTPS,
+    }
     /** The nutch configuration */
     private Configuration conf = null;
     
@@ -52,9 +54,13 @@ public class HttpResponse implements Response {
         this.url = url;
         this.orig = url.toString();
         this.base = url.toString();
-
-        if (!"http".equals(url.getProtocol()))
-            throw new HttpException("Not an HTTP url:" + url);
+        Scheme scheme = null;
+        if ("shttp".equals(url.getProtocol()))
+            scheme = Scheme.HTTP;
+        else if("shttps".equals(url.getProtocol()))
+            scheme=Scheme.HTTPS;
+        else
+            throw new HttpException("Unknown scheme (not http/https) for url:" + url);
 
         if (Http.LOG.isTraceEnabled()) {
             Http.LOG.trace("fetching " + url);
@@ -70,7 +76,11 @@ public class HttpResponse implements Response {
         int port;
         String portString;
         if (url.getPort() == -1) {
-            port = 80;
+            if (scheme == Scheme.HTTP) {
+                port = 80;
+            } else {
+                port = 443;
+            }
             portString = "";
         } else {
             port = url.getPort();
@@ -93,7 +103,8 @@ public class HttpResponse implements Response {
 
             StringBuffer reqStr = new StringBuffer("GET ");
             if (http.useProxy()) {
-                reqStr.append(url.getProtocol() + "://" + host + portString + path);
+                //去掉协议的第一个字节，以为采用的不是真的协议，而是自己编写的一个
+                reqStr.append(url.getProtocol().substring(1) + "://" + host + portString + path);
             } else {
                 reqStr.append(path);
             }
@@ -201,7 +212,8 @@ public class HttpResponse implements Response {
      * ------------------------- */
 
     private void readPlainContent(URL url) throws IOException {
-        String page = HttpWebClient.getHtmlPage(url.toString(), conf);
+        Http.LOG.info("selenium :"+url.toString().substring(1));
+        String page = HttpWebClient.getHtmlPage(url.toString().substring(1), conf);
         content = page.getBytes("UTF-8");
     }
 

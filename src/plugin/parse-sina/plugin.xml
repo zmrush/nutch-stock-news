@@ -15,11 +15,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<plugin id="index-seekingalpha" name="seekingalpha Indexing Filter" version="1.0.0"
+<plugin id="parse-sina" name="Sina Parsing Filter" version="1.0.0"
   provider-name="nutch.org">
 
   <runtime>
-    <library name="seekingalpha-urlfilter.jar">
+    <library name="parse-sina.jar">
       <export name="*" />
     </library>
   </runtime>
@@ -29,11 +29,11 @@
     <import plugin="lib-regex-filter"/>
   </requires>
 
-  <extension id="org.apache.nutch.indexer.seekingalpha"
-    name="Nutch Urlfilter Indexing Filter"
-    point="org.apache.nutch.indexer.IndexingFilter">
-    <implementation id="SeekingalphaIndexingFilter"
-      class="org.apache.nutch.indexer.seekingalpha.SeekingAlplaIndexingFilter" />
+  <extension id="org.apache.nutch.parse.sina"
+    name="Nutch Sina Parsing Filter"
+    point="org.apache.nutch.parse.ParseFilter">
+    <implementation id="SinaParsingFilter"
+      class="org.apache.nutch.parse.SinaParsingFilter" />
   </extension>
 
 </plugin>

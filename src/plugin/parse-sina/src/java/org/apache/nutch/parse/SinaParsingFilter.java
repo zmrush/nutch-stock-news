@@ -14,22 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.nutch.parse.urlfilter;
+package org.apache.nutch.parse;
 
 import org.apache.avro.util.Utf8;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.nutch.indexer.IndexingException;
-import org.apache.nutch.indexer.IndexingFilter;
 import org.apache.nutch.indexer.NutchDocument;
-import org.apache.nutch.parse.HTMLMetaTags;
-import org.apache.nutch.parse.Parse;
-import org.apache.nutch.parse.ParseFilter;
-import org.apache.nutch.parse.Parser;
 import org.apache.nutch.storage.WebPage;
 import org.apache.nutch.urlfilter.api.RegexRule;
 import org.apache.nutch.urlfilter.api.RegexURLFilterBase;
 import org.apache.nutch.util.NodeWalker;
-import org.apache.nutch.util.TableUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.w3c.dom.DocumentFragment;
@@ -38,10 +31,8 @@ import org.w3c.dom.*;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.CharSequence;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -51,9 +42,9 @@ import java.util.regex.PatternSyntaxException;
  * 
  * @see {@code anchorIndexingFilter.deduplicate} in nutch-default.xml.
  */
-public class UrlParsingFilter extends RegexURLFilterBase implements ParseFilter {
+public class SinaParsingFilter extends RegexURLFilterBase implements ParseFilter {
   public static final Logger LOG = LoggerFactory
-      .getLogger(UrlParsingFilter.class);
+      .getLogger(SinaParsingFilter.class);
   private Configuration conf;
 
   private static final Collection<WebPage.Field> FIELDS = new HashSet<WebPage.Field>();
@@ -62,16 +53,16 @@ public class UrlParsingFilter extends RegexURLFilterBase implements ParseFilter 
     //FIELDS.add(WebPage.Field.INLINKS);
   }
 //-------------------------------------------------------------------------------------
-public UrlParsingFilter() {
+public SinaParsingFilter() {
   super();
 }
 
-  public UrlParsingFilter(String filename) throws IOException,
+  public SinaParsingFilter(String filename) throws IOException,
           PatternSyntaxException {
     super(filename);
   }
 
-  UrlParsingFilter(Reader reader) throws IOException, IllegalArgumentException {
+  SinaParsingFilter(Reader reader) throws IOException, IllegalArgumentException {
     super(reader);
   }
   @Override
@@ -81,7 +72,7 @@ public UrlParsingFilter() {
 
   @Override
   protected Reader getRulesReader(Configuration conf) throws IOException {
-    String fileRules = conf.get(URLINDEXINGFILTER_REGEX_FILE);
+    String fileRules = conf.get(SINA_REGEX_FILE);
     return conf.getConfResourceAsReader(fileRules);
   }
   private class Rule extends RegexRule {
@@ -97,7 +88,7 @@ public UrlParsingFilter() {
       return pattern.matcher(url).find();
     }
   }
-  public static final String URLINDEXINGFILTER_REGEX_FILE = "urlindexingfilter.regex.file";
+  public static final String SINA_REGEX_FILE = "sina.regex.file";
   //----------------------------------------------------------------------------------
 
   /**

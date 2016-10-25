@@ -67,7 +67,7 @@
 	 </property>
         <property>
           <name>plugin.includes</name>
-          <value>protocol-selenium|urlfilter-regex|parse-(html|tika|urlfilter|seekingalpha)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
+          <value>protocol-(selenium|http)|urlfilter-regex|parse-(html|tika|sina|seekingalpha)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
           <description>Regular expression naming plugin directory names to
           include.  Any plugin not matching this expression is excluded.
           In any case you need at least include the nutch-extensionpoints plugin. By
