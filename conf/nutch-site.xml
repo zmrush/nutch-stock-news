@@ -67,7 +67,7 @@
 	 </property>
         <property>
           <name>plugin.includes</name>
-          <value>protocol-(selenium|http)|urlfilter-regex|parse-(html|tika|sina|seekingalpha)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
+          <value>protocol-(selenium|http)|urlfilter-regex|parse-(html|tika|sina|seekingalpha|jsoupfilter)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
           <description>Regular expression naming plugin directory names to
           include.  Any plugin not matching this expression is excluded.
           In any case you need at least include the nutch-extensionpoints plugin. By
@@ -87,6 +87,11 @@
 		   <value>262144</value>
 		   <description>我们将网页的大小调整成256KB</description>
 	   </property>
+	<property>
+		<name>http.timeout</name>
+		<value>20000</value>
+		<description>The default network timeout, in milliseconds.</description>
+	</property>
 	   <property>
 			<name>elastic.host</name>
 			<value>10.100.138.172</value>
@@ -117,5 +122,9 @@
 		<name>seekingalphaindexingfilter.regex.file</name>
 		<value>seekingAlpha.txt</value>
 		<description>If true, HTTP will log more verbosely.</description>
+	</property>
+	<property>
+		<name>jsoup.regex.file</name>
+		<value>investorcom.txt</value>
 	</property>
 </configuration>

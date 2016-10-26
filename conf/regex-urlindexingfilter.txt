@@ -3,3 +3,5 @@
 +^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$
 +^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://seekingalpha.com/news/[^/]+$
++^http://www.investors.com/news/technology/click/[^/]+/$
++^http://www.investors.com/news/technology/[^/]+/$

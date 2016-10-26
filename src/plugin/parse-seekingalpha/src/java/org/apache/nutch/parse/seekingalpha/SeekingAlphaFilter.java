@@ -175,7 +175,6 @@ public SeekingAlphaFilter() {
                   && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("articleBody")){
 
             NodeList nodeList=currentNode.getChildNodes();
-            System.out.println("length: "+nodeList.getLength());
             for(int i=0;i<nodeList.getLength();i++){
               Node childNode=nodeList.item(i);
 
@@ -203,7 +202,6 @@ public SeekingAlphaFilter() {
               // System.out.println("child1: "+childNode.getTextContent().length());
             }
 
-            System.out.println("final combine.text:"+combine.text);
             break;
           }
 

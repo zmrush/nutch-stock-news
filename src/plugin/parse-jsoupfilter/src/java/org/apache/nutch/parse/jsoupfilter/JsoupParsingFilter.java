@@ -74,7 +74,7 @@ public JsoupParsingFilter() {
 
   @Override
   protected Reader getRulesReader(Configuration conf) throws IOException {
-    String fileRules = conf.get(URLINDEXINGFILTER_REGEX_FILE);
+    String fileRules = conf.get(JSOUP_REGEX_FILE);
     return conf.getConfResourceAsReader(fileRules);
   }
   private class Rule extends RegexRule {
@@ -90,7 +90,7 @@ public JsoupParsingFilter() {
       return pattern.matcher(url).find();
     }
   }
-  public static final String URLINDEXINGFILTER_REGEX_FILE = "urlindexingfilter.regex.file";
+  public static final String JSOUP_REGEX_FILE = "jsoup.regex.file";
   //----------------------------------------------------------------------------------
 
   /**
@@ -136,7 +136,7 @@ public JsoupParsingFilter() {
          page.getHeaders().put(new Utf8("Source"),new Utf8("investors.com"));
          return newParse;
        }else{
-         newParse=new Parse("","",parse.getOutlinks(),parse.getParseStatus());
+         newParse=new Parse(parse.getText(),parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
        }
     return newParse;
   }
@@ -163,7 +163,7 @@ public JsoupParsingFilter() {
         combine.time = currentNode.getTextContent().replace("\\s+", " ").trim();
       }
 
-      if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class")!=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("single-post-content")){
+      if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class")!=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().contains("single-post-content")){
         combine.text=currentNode.getTextContent();
         break;
       }
