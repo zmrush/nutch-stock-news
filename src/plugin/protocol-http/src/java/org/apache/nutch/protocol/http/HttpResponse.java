@@ -309,7 +309,7 @@ public class HttpResponse implements Response {
     }
     Http.LOG.info("HttpResponse is going to write content");
     content = out.toByteArray();
-    Http.LOG.info("HttpResponse content"+new String(content,"gbk"));
+    //Http.LOG.info("HttpResponse content"+new String(content,"gbk"));
   }
 
   /**

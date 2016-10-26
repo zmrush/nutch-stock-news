@@ -34,11 +34,13 @@ import org.apache.nutch.storage.Host;
 import org.apache.nutch.storage.Mark;
 import org.apache.nutch.storage.ProtocolStatus;
 import org.apache.nutch.storage.WebPage;
+import org.apache.nutch.util.CustomURLStreamHandlerFactory;
 import org.apache.nutch.util.TableUtil;
 import org.apache.nutch.util.URLUtil;
 import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -50,7 +52,21 @@ import java.util.concurrent.atomic.AtomicLong;
 public class FetcherReducer extends
     GoraReducer<IntWritable, FetchEntry, String, WebPage> {
 
+
+
   public static final Logger LOG = FetcherJob.LOG;
+  static{
+    try {
+      Field field = URL.class.getDeclaredField("factory");
+      field.setAccessible(true);
+      if( field.get(URL.class) ==null )
+        URL.setURLStreamHandlerFactory(new CustomURLStreamHandlerFactory());
+    }catch (Throwable throwable){
+      LOG.info("set url protocol error",throwable);
+    }
+  }
+
+
 
   private final AtomicInteger activeThreads = new AtomicInteger(0);
   private final AtomicInteger spinWaiting = new AtomicInteger(0);

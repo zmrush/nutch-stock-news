@@ -17,19 +17,33 @@
 
 package org.apache.nutch.util;
 
+import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.hadoop.conf.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility to create Hadoop {@link Configuration}s that include Nutch-specific
  * resources.
  */
 public class NutchConfiguration {
+  public static Logger LOG=LoggerFactory.getLogger(NutchConfiguration.class);
   public static final String UUID_KEY = "nutch.conf.uuid";
-
+  static{
+    try {
+      Field field = URL.class.getDeclaredField("factory");
+      field.setAccessible(true);
+      if( field.get(URL.class) ==null )
+        URL.setURLStreamHandlerFactory(new CustomURLStreamHandlerFactory());
+    }catch (Throwable throwable){
+      LOG.info("set url protocol error",throwable);
+    }
+  }
   private NutchConfiguration() {
   } // singleton
 

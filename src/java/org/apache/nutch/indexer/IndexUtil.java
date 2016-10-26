@@ -79,8 +79,11 @@ public class IndexUtil {
     LOG.info("indexutil url:"+url);
     try {
       doc = filters.filter(doc, url, page);
-    } catch (IndexingException e) {
-      LOG.warn("Error indexing " + key + ": " + e);
+      //发生所有的问题，我们都认为有问题
+    //} catch (IndexingException e) {
+    } catch (Throwable e) {
+      //LOG.warn("Error indexing " + key + ": " + e);
+      LOG.warn("Error indexing " + key + ": ",e);
       return null;
     }
 

@@ -17,7 +17,9 @@
 package org.apache.nutch.crawl;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +30,12 @@ import org.apache.nutch.crawl.GeneratorJob.SelectorEntry;
 import org.apache.nutch.fetcher.FetcherJob.FetcherMapper;
 import org.apache.nutch.storage.Mark;
 import org.apache.nutch.storage.WebPage;
+import org.apache.nutch.util.CustomURLStreamHandlerFactory;
 import org.apache.nutch.util.TableUtil;
 import org.apache.nutch.util.URLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Reduce class for generate
@@ -40,7 +46,7 @@ import org.apache.nutch.util.URLUtil;
  */
 public class GeneratorReducer extends
     GoraReducer<SelectorEntry, WebPage, String, WebPage> {
-
+  private static Logger LOG=LoggerFactory.getLogger(GeneratorReducer.class);
   private long limit;
   private long maxCount;
   protected static long count = 0;
@@ -79,6 +85,7 @@ public class GeneratorReducer extends
       try {
         context.write(TableUtil.reverseUrl(key.url), page);
       } catch (MalformedURLException e) {
+        LOG.info("generate url"+key.url+" error",e);
         context.getCounter("Generator", "MALFORMED_URL").increment(1);
         continue;
       }
@@ -90,6 +97,14 @@ public class GeneratorReducer extends
   @Override
   protected void setup(Context context) throws IOException,
       InterruptedException {
+      try {
+        Field field = URL.class.getDeclaredField("factory");
+        field.setAccessible(true);
+        if( field.get(URL.class) ==null )
+          URL.setURLStreamHandlerFactory(new CustomURLStreamHandlerFactory());
+      }catch (Throwable throwable){
+        LOG.info("set url protocol error",throwable);
+      }
     Configuration conf = context.getConfiguration();
     long totalLimit = conf
         .getLong(GeneratorJob.GENERATOR_TOP_N, Long.MAX_VALUE);

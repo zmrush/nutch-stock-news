@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -145,9 +146,9 @@ public class InjectorJob extends NutchTool implements Tool {
       }
       try {
         url = urlNormalizers.normalize(url, URLNormalizers.SCOPE_INJECT);
-        //LOG.info("inject normalize:"+url);
+        LOG.info("inject normalize:"+url);
         url = filters.filter(url); // filter the url
-        //LOG.info("inject filter:"+url);
+        LOG.info("inject filter:"+url);
       } catch (Exception e) {
         LOG.warn("Skipping " + url + ":" + e);
         url = null;

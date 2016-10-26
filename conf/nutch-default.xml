@@ -1050,10 +1050,14 @@
   used by urlfilter-regex (RegexURLFilter) plugin.</description>
 </property>
   <property>
-    <name>urlindexingfilter.regex.file</name>
-    <value>regex-urlindexingfilter.txt</value>
+    <name>sina.regex.file</name>
+    <value>regex-sina.txt</value>
     <description>Name of file on CLASSPATH containing regular expressions
       used by urlfilter-regex (RegexURLFilter) plugin.</description>
+  </property>
+  <property>
+    <name>urlindexingfilter.regex.file</name>
+    <value>regex-urlindexingfilter.txt</value>
   </property>
   <property>
     <name>nasdaq.regex.file</name>

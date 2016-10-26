@@ -38,9 +38,14 @@
 # accept anything else
 #仅接受包含新浪的
 +http://finance.sina.com.cn/stock/usstock/
-+http://roll.finance.sina.com.cn/s/channel.php\?ch=03
-+^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)
-+^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)
-+^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)
-+^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)
-+.*(seekingalpha.com).*
++shttp://roll.finance.sina.com.cn/s/channel.php\?ch=03
++^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
++^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
++^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$
++^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
++^http://seekingalpha.com/news/[^/]+$
++^http://seekingalpha.com/market-news
+
++^http://www.investors.com/technology/$
++^http://www.investors.com/news/technology/click/[^/]+/$
++^http://www.investors.com/news/technology/[^/]+/$

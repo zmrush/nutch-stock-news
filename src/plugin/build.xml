@@ -66,10 +66,10 @@
      <ant dir="lib-selenium" target="deploy"/>
      <ant dir="protocol-selenium" target="deploy"/>
      <ant dir="index-urlfilter" target="deploy"/>
-     <ant dir="parse-urlfilter" target="deploy"/>
+     <ant dir="parse-sina" target="deploy"/>
       <ant dir="parse-seekingalpha" target="deploy"/>
       <ant dir="parse-nasdaq-financial" target="deploy"/>
-      <ant dir="index-seekingalpha" target="deploy"/>
+      <ant dir="parse-jsoupfilter" target="deploy"/>
 
       <!--
       <ant dir="feed" target="deploy"/>
@@ -112,11 +112,10 @@
      <ant dir="lib-selenium" target="test"/>
      <ant dir="protocol-selenium" target="test"/>
      <ant dir="index-urlfilter" target="test"/>
-     <ant dir="parse-urlfilter" target="test"/>
+     <ant dir="parse-sina" target="test"/>
       <ant dir="parse-seekingalpha" target="test"/>
       <ant dir="parse-nasdaq-financial" target="test"/>
-      <ant dir="index-seekingalpha" target="test"/>
-
+      <ant dir="parse-jsoupfilter" target="test"/>
       <!--
       <ant dir="feed" target="test"/>
       <ant dir="parse-ext" target="test"/>
@@ -173,10 +172,10 @@
     <ant dir="lib-selenium" target="clean"/>
     <ant dir="protocol-selenium" target="clean"/>
     <ant dir="index-urlfilter" target="clean"/>
-    <ant dir="parse-urlfilter" target="clean"/>
+    <ant dir="parse-sina" target="clean"/>
       <ant dir="parse-seekingalpha" target="clean"/>
       <ant dir="parse-nasdaq-financial" target="clean"/>
-      <ant dir="index-seekingalpha" target="clean"/>
+      <ant dir="parse-jsoupfilter" target="clean"/>
 
   </target>
 </project>
