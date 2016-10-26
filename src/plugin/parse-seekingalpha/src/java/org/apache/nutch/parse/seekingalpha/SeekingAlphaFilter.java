@@ -171,6 +171,10 @@ public SeekingAlphaFilter() {
                   && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("datePublished")){
             combine.time=currentNode.getAttributes().getNamedItem("content").getNodeValue();
           }
+          if("time".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("itemprop") !=null
+                  && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("datePublished")){
+            combine.time=currentNode.getAttributes().getNamedItem("content").getNodeValue();
+          }
           if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("itemprop") !=null
                   && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("articleBody")){
 
