@@ -70,6 +70,7 @@
       <ant dir="parse-seekingalpha" target="deploy"/>
       <ant dir="parse-nasdaq-financial" target="deploy"/>
       <ant dir="parse-jsoupfilter" target="deploy"/>
+      <ant dir="parse-qqtech" target="deploy"/>
 
       <!--
       <ant dir="feed" target="deploy"/>
@@ -116,6 +117,8 @@
       <ant dir="parse-seekingalpha" target="test"/>
       <ant dir="parse-nasdaq-financial" target="test"/>
       <ant dir="parse-jsoupfilter" target="test"/>
+      <ant dir="parse-qqtech" target="test"/>
+
       <!--
       <ant dir="feed" target="test"/>
       <ant dir="parse-ext" target="test"/>
@@ -176,6 +179,8 @@
       <ant dir="parse-seekingalpha" target="clean"/>
       <ant dir="parse-nasdaq-financial" target="clean"/>
       <ant dir="parse-jsoupfilter" target="clean"/>
+      <ant dir="parse-qqtech" target="clean"/>
+
 
   </target>
 </project>

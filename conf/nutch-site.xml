@@ -124,6 +124,11 @@
 		<description>If true, HTTP will log more verbosely.</description>
 	</property>
 	<property>
+		<name>qqtechindexingfilter.regex.file</name>
+		<value>qqtech.txt</value>
+		<description>If true, HTTP will log more verbosely.</description>
+	</property>
+	<property>
 		<name>jsoup.regex.file</name>
 		<value>investorcom.txt</value>
 	</property>

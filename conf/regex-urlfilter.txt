@@ -49,3 +49,7 @@
 +^http://www.investors.com/technology/$
 +^http://www.investors.com/news/technology/click/[^/]+/$
 +^http://www.investors.com/news/technology/[^/]+/$
+
+
++^http://tech.qq.com/a/[^/]+$
++^http://tech.qq.com/
