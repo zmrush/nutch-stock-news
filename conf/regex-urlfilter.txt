@@ -52,3 +52,7 @@
 
 +^http://world.nbd.com.cn/$
 +^http://www.nbd.com.cn/articles/[0-9\-]{10}/[^/]+$
+
+
++^http://tech.qq.com/a/[^/]+$
++^http://tech.qq.com/
