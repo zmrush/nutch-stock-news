@@ -29,7 +29,9 @@ import org.apache.nutch.storage.WebPage;
 import org.apache.nutch.urlfilter.api.RegexRule;
 import org.apache.nutch.urlfilter.api.RegexURLFilterBase;
 import org.apache.nutch.util.NodeWalker;
+import org.apache.nutch.util.PageUtils;
 import org.apache.nutch.util.TableUtil;
+import org.apache.nutch.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.w3c.dom.DocumentFragment;
@@ -173,39 +175,39 @@ public SeekingAlphaFilter() {
           }
           if("time".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("itemprop") !=null
                   && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("datePublished")){
-            combine.time=currentNode.getAttributes().getNamedItem("content").getNodeValue();
+            combine.time= String.valueOf(TimeUtils.convert2time(currentNode.getAttributes().getNamedItem("content").getNodeValue()));
           }
           if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("itemprop") !=null
                   && currentNode.getAttributes().getNamedItem("itemprop").getNodeValue().equalsIgnoreCase("articleBody")){
 
-            NodeList nodeList=currentNode.getChildNodes();
-            for(int i=0;i<nodeList.getLength();i++){
-              Node childNode=nodeList.item(i);
-
-              if("DIV".equalsIgnoreCase(childNode.getNodeName())){
-                if("bullets_ul".equalsIgnoreCase(childNode.getAttributes().getNamedItem("id").getNodeValue())){
-                  // System.out.println("child node: "+childNode.getNodeName());
-                  // System.out.println("child1: "+childNode.getTextContent());
-
-                  NodeList pList = childNode.getChildNodes();
-                  for(int j=0;j<pList.getLength();j++){
-                    Node p =pList.item(j);
-                    if(!"#text".equalsIgnoreCase(p.getNodeName()) && !"A".equalsIgnoreCase(p.getFirstChild().getNodeName())){
-                      //System.out.println("pNode node: "+p.getNodeName());
-                      // System.out.println("pNode text: "+p.getTextContent());
-                      // System.out.println("pNode child length:"+p.getFirstChild().getNodeName());
-                      combine.text+=p.getTextContent()+"\r\n";
-                    }
-
-                  }
-
-                }
-
-              }
-
-              // System.out.println("child1: "+childNode.getTextContent().length());
-            }
-
+//            NodeList nodeList=currentNode.getChildNodes();
+//            for(int i=0;i<nodeList.getLength();i++){
+//              Node childNode=nodeList.item(i);
+//
+//              if("DIV".equalsIgnoreCase(childNode.getNodeName())){
+//                if("bullets_ul".equalsIgnoreCase(childNode.getAttributes().getNamedItem("id").getNodeValue())){
+//                  // System.out.println("child node: "+childNode.getNodeName());
+//                  // System.out.println("child1: "+childNode.getTextContent());
+//
+//                  NodeList pList = childNode.getChildNodes();
+//                  for(int j=0;j<pList.getLength();j++){
+//                    Node p =pList.item(j);
+//                    if(!"#text".equalsIgnoreCase(p.getNodeName()) && !"A".equalsIgnoreCase(p.getFirstChild().getNodeName())){
+//                      //System.out.println("pNode node: "+p.getNodeName());
+//                      // System.out.println("pNode text: "+p.getTextContent());
+//                      // System.out.println("pNode child length:"+p.getFirstChild().getNodeName());
+//                      combine.text+=p.getTextContent()+"\r\n";
+//                    }
+//
+//                  }
+//
+//                }
+//
+//              }
+//
+//              // System.out.println("child1: "+childNode.getTextContent().length());
+//            }
+            combine.text= PageUtils.pasteAll(currentNode);
             break;
           }
 

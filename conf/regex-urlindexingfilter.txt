@@ -5,3 +5,4 @@
 +^http://seekingalpha.com/news/[^/]+$
 +^http://www.investors.com/news/technology/click/[^/]+/$
 +^http://www.investors.com/news/technology/[^/]+/$
++^http://www.nbd.com.cn/articles/[0-9\-]{10}/[^/]+$

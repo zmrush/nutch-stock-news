@@ -44,9 +44,9 @@ import java.util.regex.PatternSyntaxException;
  * 
  * @see {@code anchorIndexingFilter.deduplicate} in nutch-default.xml.
  */
-public class SinaParsingFilter extends RegexURLFilterBase implements ParseFilter {
+public class NbdParsingFilter extends RegexURLFilterBase implements ParseFilter {
   public static final Logger LOG = LoggerFactory
-      .getLogger(SinaParsingFilter.class);
+      .getLogger(NbdParsingFilter.class);
   private Configuration conf;
 
   private static final Collection<WebPage.Field> FIELDS = new HashSet<WebPage.Field>();
@@ -55,16 +55,16 @@ public class SinaParsingFilter extends RegexURLFilterBase implements ParseFilter
     //FIELDS.add(WebPage.Field.INLINKS);
   }
 //-------------------------------------------------------------------------------------
-public SinaParsingFilter() {
+  public NbdParsingFilter() {
   super();
 }
 
-  public SinaParsingFilter(String filename) throws IOException,
+  public NbdParsingFilter(String filename) throws IOException,
           PatternSyntaxException {
     super(filename);
   }
 
-  SinaParsingFilter(Reader reader) throws IOException, IllegalArgumentException {
+  public NbdParsingFilter(Reader reader) throws IOException, IllegalArgumentException {
     super(reader);
   }
   @Override
@@ -74,7 +74,7 @@ public SinaParsingFilter() {
 
   @Override
   protected Reader getRulesReader(Configuration conf) throws IOException {
-    String fileRules = conf.get(SINA_REGEX_FILE);
+    String fileRules = conf.get(NBD_REGEX_FILE);
     return conf.getConfResourceAsReader(fileRules);
   }
   private class Rule extends RegexRule {
@@ -90,7 +90,7 @@ public SinaParsingFilter() {
       return pattern.matcher(url).find();
     }
   }
-  public static final String SINA_REGEX_FILE = "sina.regex.file";
+  public static final String NBD_REGEX_FILE = "nbd.regex.file";
   //----------------------------------------------------------------------------------
 
   /**
@@ -127,13 +127,13 @@ public SinaParsingFilter() {
   @Override
   public Parse filter(String url, WebPage page, Parse parse,
                       HTMLMetaTags metaTags, DocumentFragment doc){
-       LOG.info("urlparsing filter:"+url);
+       LOG.info("nbd filter:"+url);
        Parse newParse=null;
        if(this.filter(url)!=null){
          Combine combine=walk(doc);
          newParse=new Parse(combine.text,parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
          page.getHeaders().put(new Utf8("EditTime"),new Utf8(combine.time));
-         page.getHeaders().put(new Utf8("Source"),new Utf8("新浪财经"));
+         page.getHeaders().put(new Utf8("Source"),new Utf8("每经网"));
          return newParse;
        }else{
          newParse=new Parse(parse.getText(),parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
@@ -160,33 +160,25 @@ public SinaParsingFilter() {
       if ("style".equalsIgnoreCase(nodeName)) {
         walker.skipChildren();
       }
-      if("span".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("id") !=null && currentNode.getAttributes().getNamedItem("id").getNodeValue().equalsIgnoreCase("pub_date")) {
-        combine.time = String.valueOf(TimeUtils.convert2time(currentNode.getTextContent().replace("\\s+", " ").trim()));
-      }
-      if("span".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class") !=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("titer")){
+      if("span".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class") !=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("time")){
         combine.time= String.valueOf(TimeUtils.convert2time(currentNode.getTextContent().replace("\\s+", " ").trim()));
       }
-      if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("id")!=null && currentNode.getAttributes().getNamedItem("id").getNodeValue().equalsIgnoreCase("artibody")){
+      if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class")!=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("g-articl-text")){
 //        NodeList nodeList=currentNode.getChildNodes();
 //        for(int i=0;i<nodeList.getLength();i++){
 //          Node childNode=nodeList.item(i);
-//          if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("p")){
+//          if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("p") && childNode.hasChildNodes() && childNode.getFirstChild().getNodeType() == Node.TEXT_NODE ){
 //            sb.append("<p>");
 //            sb.append(childNode.getTextContent());
 //            sb.append("</p>");
 //          }
-//          else if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("div")){
-//            NamedNodeMap map=childNode.getAttributes();
-//            if(map.getNamedItem("class")!=null && map.getNamedItem("class").getNodeValue().equalsIgnoreCase("img_wrapper")){
-//              sb.append("<div>");
-//              if(childNode.getChildNodes()!=null && childNode.getChildNodes().getLength()>0 && childNode.getFirstChild().getNodeName().equalsIgnoreCase("img")){
-//                Node tmp=childNode.getFirstChild();
-//                sb.append("<img src=\"");
-//                sb.append(tmp.getAttributes().getNamedItem("src").getNodeValue());
-//                sb.append("\"/>");
-//              }
-//              sb.append("</div>");
-//            }
+//          else if(childNode.getNodeName()!=null && childNode.getNodeName().equalsIgnoreCase("p") && childNode.hasChildNodes() && childNode.getFirstChild().getNodeName().equalsIgnoreCase("img")){
+//            sb.append("<p>");
+//            Node tmp=childNode.getFirstChild();
+//            sb.append("<img src=\"");
+//            sb.append(tmp.getAttributes().getNamedItem("src").getNodeValue());
+//            sb.append("\"/>");
+//            sb.append("</p>");
 //          }
 //        }
         combine.text= PageUtils.pasteAll(currentNode);

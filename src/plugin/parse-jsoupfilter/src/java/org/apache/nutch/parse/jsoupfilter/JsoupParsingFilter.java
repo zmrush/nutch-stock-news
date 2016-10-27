@@ -26,6 +26,8 @@ import org.apache.nutch.storage.WebPage;
 import org.apache.nutch.urlfilter.api.RegexRule;
 import org.apache.nutch.urlfilter.api.RegexURLFilterBase;
 import org.apache.nutch.util.NodeWalker;
+import org.apache.nutch.util.PageUtils;
+import org.apache.nutch.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DocumentFragment;
@@ -160,11 +162,11 @@ public JsoupParsingFilter() {
       }
 
       if("li".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class") !=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("post-time")) {
-        combine.time = currentNode.getTextContent().replace("\\s+", " ").trim();
+        combine.time = String.valueOf(TimeUtils.convert2time(currentNode.getTextContent().replace("\\s+", " ").trim()));
       }
 
       if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class")!=null && currentNode.getAttributes().getNamedItem("class").getNodeValue().contains("single-post-content")){
-        combine.text=currentNode.getTextContent();
+        combine.text= PageUtils.pasteAll(currentNode);
         break;
       }
     }

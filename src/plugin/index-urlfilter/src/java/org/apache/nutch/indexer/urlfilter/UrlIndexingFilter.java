@@ -32,10 +32,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.lang.CharSequence;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.apache.solr.common.util.DateUtil;
 
 /**
  * Indexing filter that offers an option to either index all inbound anchor text
@@ -128,12 +130,19 @@ public UrlIndexingFilter() {
   public NutchDocument filter(NutchDocument doc, String url, WebPage page)
       throws IndexingException {
     LOG.info("urlindexingfilter:"+url);
-    if(this.filter(url)!=null) {  //接受url
-      LOG.info("accept url");
+    if( this.filter( url ) != null) {  //接受url
       doc.add("source",page.getHeaders().get(new Utf8("Source")).toString());
       //doc.removeField("tstamp");
       //不同的来源可能时间格式不一样，因此需要详细设计
-      doc.add("estamp",page.getHeaders().get(new Utf8("EditTime")).toString());
+      if( page.getHeaders().get(new Utf8("EditTime"))!=null && !page.getHeaders().get(new Utf8("EditTime")).equals("") ) {
+        doc.add("estamp", DateUtil.getThreadLocalDateFormat().format(new Date( Long.valueOf(page.getHeaders().get(new Utf8("EditTime")).toString()))) );
+      }else{
+        if(page.getPrevFetchTime() != null) {
+          doc.add("estamp", DateUtil.getThreadLocalDateFormat().format(new Date(page.getPrevFetchTime())));
+        } else {
+          doc.add("estamp", DateUtil.getThreadLocalDateFormat().format(new Date(page.getFetchTime())));
+        }
+      }
       return doc;
 
     }

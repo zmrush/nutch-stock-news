@@ -1,0 +1,1 @@
++^http://www.nbd.com.cn/articles/[0-9\-]{10}/[^/]+$
