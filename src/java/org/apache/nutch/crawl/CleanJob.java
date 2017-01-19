@@ -3,6 +3,7 @@ package org.apache.nutch.crawl;
 import org.apache.avro.util.Utf8;
 import org.apache.gora.filter.FilterOp;
 import org.apache.gora.filter.MapFieldValueFilter;
+import org.apache.gora.filter.SingleFieldValueFilter;
 import org.apache.gora.query.Query;
 import org.apache.gora.store.DataStore;
 import org.apache.hadoop.util.Tool;
@@ -51,12 +52,48 @@ public class CleanJob extends NutchTool implements Tool {
         try {
             store = StorageUtils.createWebStore(getConf(), String.class, WebPage.class);
             Query<String, WebPage> query = store.newQuery();
+//            MapFieldValueFilter<String, WebPage> filter = new MapFieldValueFilter<String, WebPage>();
+//            filter.setFieldName(WebPage.Field.MARKERS.toString());
+//            filter.setMapKey(Mark.INDEX_MARK.getName());
+//            filter.setFilterIfMissing(false);
+//            filter.setFilterOp(FilterOp.NOT_EQUALS);
+//            filter.getOperands().add(new Utf8(MAGIC_NUMBER));
+            //----------------------------------------------------------------
+            SingleFieldValueFilter<String,WebPage> filter=new SingleFieldValueFilter<String, WebPage>();
+            filter.setFieldName(WebPage.Field.PREV_FETCH_TIME.toString());
+            filter.setFilterOp(FilterOp.LESS);
+            filter.setFilterIfMissing(false);
+            long now=System.currentTimeMillis();
+            now=now-12*3600*1000;
+            filter.getOperands().add(now);
+            //----------------------------------------------------------------
+            query.setFilter(filter);
+            query.setFields(WebPage._ALL_FIELDS);
+            store.deleteByQuery(query);
+            store.close();
+            store=null;
+        } catch (Throwable e) {
+            throw new RuntimeException("clean job encounters problems",e);
+        }
+        Thread.currentThread().sleep(60000);
+        try {
+            store = StorageUtils.createWebStore(getConf(), String.class, WebPage.class);
+            Query<String, WebPage> query = store.newQuery();
             MapFieldValueFilter<String, WebPage> filter = new MapFieldValueFilter<String, WebPage>();
             filter.setFieldName(WebPage.Field.MARKERS.toString());
             filter.setMapKey(Mark.INDEX_MARK.getName());
             filter.setFilterIfMissing(false);
             filter.setFilterOp(FilterOp.NOT_EQUALS);
             filter.getOperands().add(new Utf8(MAGIC_NUMBER));
+            //----------------------------------------------------------------
+//            SingleFieldValueFilter<String,WebPage> filter=new SingleFieldValueFilter<String, WebPage>();
+//            filter.setFieldName(WebPage.Field.PREV_FETCH_TIME.toString());
+//            filter.setFilterOp(FilterOp.LESS);
+//            filter.setFilterIfMissing(true);
+//            long now=System.currentTimeMillis();
+//            now=now-12*3600*1000;
+//            filter.getOperands().add(now);
+            //----------------------------------------------------------------
             query.setFilter(filter);
             query.setFields(WebPage._ALL_FIELDS);
             store.deleteByQuery(query);

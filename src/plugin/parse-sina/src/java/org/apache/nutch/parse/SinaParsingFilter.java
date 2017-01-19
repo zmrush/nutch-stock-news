@@ -86,7 +86,7 @@ public SinaParsingFilter() {
       pattern = Pattern.compile(regex);
     }
 
-    protected boolean match(String url) {
+    public boolean match(String url) {
       return pattern.matcher(url).find();
     }
   }

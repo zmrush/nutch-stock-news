@@ -1,1 +1,1 @@
-+^http://tech.qq.com/a/[^/]+$
++^http://tech.qq.com/a/[0-9]{8}/[^/]+$

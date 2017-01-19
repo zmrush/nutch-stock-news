@@ -63,11 +63,11 @@
 	</property>
 	<property>
 	  <name>http.agent.name</name>
-	  <value>My Nutch Spider</value>
+		<value>My Nutch Spider</value>
 	 </property>
         <property>
           <name>plugin.includes</name>
-          <value>protocol-(selenium|http)|urlfilter-regex|parse-(html|tika|sina|seekingalpha|jsoupfilter|nbd)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
+          <value>protocol-(selenium|http)|urlfilter-regex|parse-(html|tika|urlfilter)|index-(basic|anchor|urlfilter)|urlnormalizer-(pass|regex|basic)|scoring-opic|indexer-elastic</value>
           <description>Regular expression naming plugin directory names to
           include.  Any plugin not matching this expression is excluded.
           In any case you need at least include the nutch-extensionpoints plugin. By
@@ -94,15 +94,18 @@
 	</property>
 	   <property>
 			<name>elastic.host</name>
-			<value>10.100.138.172</value>
+			<!--<value>10.100.138.172</value>-->
+		   <value>toumira-es.creditease.corp</value>
 		</property>
 		<property>
 			<name>elastic.port</name>
-			<value>9300</value>
+			<!--<value>9300</value>-->
+			<value>9302</value>
 		</property>
 		<property>
 			<name>elastic.cluster</name>
-			<value>my-application</value>
+			<!--<value>my-application</value>-->
+			<value>mg-news-application</value>
 		</property>
 		<property>
 			<name>elastic.index</name>
@@ -135,5 +138,9 @@
 	<property>
 		<name>nbd.regex.file</name>
 		<value>nbd.txt</value>
+	</property>
+	<property>
+		<name>parse.regex.file</name>
+		<value>parseAll.txt</value>
 	</property>
 </configuration>

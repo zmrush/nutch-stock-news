@@ -1,0 +1,20 @@
++^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=class&value=time-source#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
++^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=id&value=pub_date#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
++^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=id&value=pub_date#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
++^http://www.investors.com/news/technology/[^/]+/$#nodeName=li&attribute=class&value=post-time#nodeName=div&attribute=class&value=single-post-content post-content drop-cap#nodeName=h1&attribute=class&value=header1#investor.com
++^http://www.investors.com/news/technology/click/[^/]+/$#nodeName=li&attribute=class&value=post-time#nodeName=div&attribute=class&value=single-post-content post-content drop-cap#nodeName=h1&attribute=class&value=header1#investor.com
++^http://tech.qq.com/a/[0-9]{8}/[^/]+$#nodeName=span&attribute=class&value=pubTime#nodeName=div&attribute=id&value=Cnt-Main-Article-QQ#nodeName=h1&attribute=&value=#腾讯科技
++^http://seekingalpha.com/news/[^/]+$#nodeName=time&attribute=itemprop&value=datePublished#nodeName=div&attribute=itemprop&value=articleBody#nodeName=h1&attribute=itemprop&value=headline#Seeking Alpha
++^http://www.nbd.com.cn/articles/[0-9\-]{10}/[^/]+$#nodeName=span&attribute=class&value=time#nodeName=div&attribute=class&value=g-articl-text#nodeName=h1&attribute=&value=#每经网
++^http://www.marketwatch.com/story/[0-9a-z\-]+$#nodeName=p&attribute=id&value=published-timestamp#nodeName=div&attribute=id&value=article-body#nodeName=h1&attribute=id&value=article-headline#MarketWatch
++^http://finance.eastmoney.com/news/[^/]+$#nodeName=div&attribute=class&value=time#nodeName=div&attribute=id&value=ContentBody#nodeName=h1&attribute=&value=#东方财富网
++^http://stock.eastmoney.com/news/[^/]+$#nodeName=div&attribute=class&value=time#nodeName=div&attribute=id&value=ContentBody#nodeName=h1&attribute=&value=#东方财富网
++^http://tech.163.com/[0-9]+/[0-9]+/[0-9]+/[^/]+$#nodeName=div&attribute=class&value=post_time_source#nodeName=div&attribute=class&value=post_text#nodeName=h1&attribute=&value=#网易科技
++^http://www.finet.com.cn/hwstocks/meiguogushi/[0-9]+/[0-9]+/[^/]+$#nodeName=div&attribute=class&value=news_from_left#nodeName=div&attribute=id&value=fdfx#nodeName=div&attribute=class&value=news_tit_big#财华智库网
++^http://www.cailianpress.com/single/[^/]+$#nodeName=span&attribute=class&value=time#nodeName=li&attribute=class&value=content#nodeName=li&attribute=id&value=title#财联社
++^http://www.yicai.com/news/[^/]+$#nodeName=h2&attribute=class&value=f-ff1 f-fwn f-fs14#nodeName=div&attribute=class&value=m-text#nodeName=h1&attribute=class&value=f-ff1 f-fwn f-fs30#第一财经
++^http://kuaixun.stcn.com/[0-9]{4}/[0-9]+/[^/]+$#nodeName=div&attribute=class&value=info#nodeName=div&attribute=id&value=ctrlfscont#nodeName=h2&attribute=&value=#证券时报
++^http://news.xinhuanet.com/fortune/[0-9\-]+/[0-9]+/[^/]+$#nodeName=span&attribute=class&value=time#nodeName=div&attribute=class&value=article#nodeName=h1&attribute=id&value=title#新华财经
++^http://www.techweb.com.cn/[a-zA-Z]+/[0-9\-]+/[^/]+$#nodeName=span&attribute=id&value=pubtime_baidu#nodeName=div&attribute=id&value=artibody#nodeName=div&attribute=class&value=title#TechWeb
++^http://na.fx168.com/[a-zA-Z]+/[0-9]+/[^/]+$#nodeName=b&attribute=class&value=shijian#nodeName=div&attribute=class&value=TRS_Editor#nodeName=h2&attribute=class&value=headline1#FX168
++^http://cn.reuters.com/article/[^/]+$#nodeName=span&attribute=class&value=timestamp#nodeName=span&attribute=id&value=article-text#nodeName=h1&attribute=class&value=article-headline#路透中文网

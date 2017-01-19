@@ -29,7 +29,9 @@ import org.apache.nutch.storage.WebPage;
 import org.apache.nutch.urlfilter.api.RegexRule;
 import org.apache.nutch.urlfilter.api.RegexURLFilterBase;
 import org.apache.nutch.util.NodeWalker;
+import org.apache.nutch.util.PageUtils;
 import org.apache.nutch.util.TableUtil;
+import org.apache.nutch.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.w3c.dom.DocumentFragment;
@@ -93,7 +95,7 @@ public QQTechFilter() {
       pattern = Pattern.compile(regex);
     }
 
-    protected boolean match(String url) {
+    public boolean match(String url) {
       return pattern.matcher(url).find();
     }
   }
@@ -140,7 +142,7 @@ public QQTechFilter() {
          Combine combine=walk(doc);
          newParse=new Parse(combine.text,parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
          page.getHeaders().put(new Utf8("EditTime"),new Utf8(combine.time));
-         page.getHeaders().put(new Utf8("Source"),new Utf8("Seeking Alpha"));
+         page.getHeaders().put(new Utf8("Source"),new Utf8("腾讯科技"));
          return newParse;
        }else{
          newParse=new Parse(parse.getText(),parse.getTitle(),parse.getOutlinks(),parse.getParseStatus());
@@ -169,27 +171,14 @@ public QQTechFilter() {
 
           if("span".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("class") !=null
                   && currentNode.getAttributes().getNamedItem("class").getNodeValue().equalsIgnoreCase("pubTime")){
-            combine.time=currentNode.getTextContent();
+            combine.time= String.valueOf(TimeUtils.convert2time(currentNode.getTextContent().replace("\\s+", " ").trim()));
           }
 
-          if("p".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("style") !=null
-                  && currentNode.getAttributes().getNamedItem("style")
-                  .getNodeValue().equalsIgnoreCase("TEXT-INDENT: 2em")){
-
-            NodeList nodeList=currentNode.getChildNodes();
-//            System.out.println(nodeList.getLength());
-//            System.out.println(currentNode.getTextContent());
-//
-//            for(int j=0;j<nodeList.getLength();j++){
-//              System.out.println("child name:"+nodeList.item(j).getNodeName());
-//
-//            }
-            if(nodeList.getLength()==1 && nodeList.item(0).getNodeName().equalsIgnoreCase("#text")){
-              combine.text += currentNode.getTextContent()+"\r\n";
-
-            }
-
-            //  break;
+          if("div".equalsIgnoreCase(nodeName) && currentNode.getAttributes().getNamedItem("id") !=null
+                  && currentNode.getAttributes().getNamedItem("id")
+                  .getNodeValue().equalsIgnoreCase("Cnt-Main-Article-QQ")){
+            combine.text= PageUtils.pasteAll(currentNode);
+            break;
           }
 
         }

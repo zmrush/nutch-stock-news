@@ -9,6 +9,11 @@ import java.io.PushbackInputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
 import org.apache.avro.util.Utf8;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -22,6 +27,11 @@ import org.apache.nutch.protocol.ProtocolException;
 import org.apache.nutch.protocol.http.api.HttpBase;
 import org.apache.nutch.protocol.http.api.HttpException;
 import org.apache.nutch.util.EncodingDetector;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 //import org.openqa.selenium.By;
 //import org.openqa.selenium.WebDriver;
@@ -98,12 +108,66 @@ public class HttpResponse implements Response {
             InetSocketAddress sockAddr = new InetSocketAddress(sockHost, sockPort);
             socket.connect(sockAddr, http.getTimeout());
 
+            //------------------------------------------------------------------------
+            if (scheme == Scheme.HTTPS) {
+//        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory
+//            .getDefault();
+//        SSLSocket sslsocket = (SSLSocket) factory.createSocket(socket,
+//            sockHost, sockPort, true);
+//        sslsocket.setUseClientMode(true);
+//
+//        // Get the protocols and ciphers supported by this JVM
+//        Set<String> protocols = new HashSet<String>(Arrays.asList(sslsocket
+//            .getSupportedProtocols()));
+//        Set<String> ciphers = new HashSet<String>(Arrays.asList(sslsocket
+//            .getSupportedCipherSuites()));
+//
+//        // Intersect with preferred protocols and ciphers
+//        protocols.retainAll(http.getTlsPreferredProtocols());
+//        ciphers.retainAll(http.getTlsPreferredCipherSuites());
+//
+//        sslsocket.setEnabledProtocols(protocols.toArray(new String[protocols
+//            .size()]));
+//        sslsocket.setEnabledCipherSuites(ciphers.toArray(new String[ciphers
+//            .size()]));
+//
+//        sslsocket.startHandshake();
+//        socket = sslsocket;
+                SSLContext sslContext = null;
+                sslContext = SSLContext.getInstance("TLS");
+                TrustManager tm = new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] x509Certificates, String s)
+                            throws CertificateException {
+                        System.out.println("client test");
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] x509Certificates, String s)
+                            throws CertificateException {
+                        System.out.println("server test");
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                };
+                sslContext.init(null, new TrustManager[] {tm}, null);
+                socket = sslContext.getSocketFactory().createSocket(socket,
+                        host, socket.getPort(), true);
+                SSLSocket sslsocket=(SSLSocket)socket;
+                sslsocket.startHandshake();
+                socket = sslsocket;  //其实没有什么卵用
+            }
+            //------------------------------------------------------------------------
+
             // make request
             OutputStream req = socket.getOutputStream();
 
             StringBuffer reqStr = new StringBuffer("GET ");
             if (http.useProxy()) {
-                //去掉协议的第一个字节，以为采用的不是真的协议，而是自己编写的一个
+                //去掉协议的第一个字节，以为采用的不是真的协议，而是自己编写的一个shttp
                 reqStr.append(url.getProtocol().substring(1) + "://" + host + portString + path);
             } else {
                 reqStr.append(path);
@@ -176,7 +240,11 @@ public class HttpResponse implements Response {
                 page.getHeaders().put(new Utf8(key), new Utf8(headers.get(key)));
             }
 
-        } finally {
+        } catch(NoSuchAlgorithmException e){
+            Http.LOG.error("ssl exception",e);
+        } catch(KeyManagementException e){
+            Http.LOG.error("ssl exception",e);
+        }finally {
             if (socket != null)
                 socket.close();
         }

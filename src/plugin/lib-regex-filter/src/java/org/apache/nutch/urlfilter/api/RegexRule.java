@@ -47,7 +47,11 @@ public abstract class RegexRule {
    * @return <code>true</code> if any url matching this rule must be accepted,
    *         otherwise <code>false</code>.
    */
-  protected boolean accept() {
+//  protected boolean accept() {
+//    return sign;
+//  }
+  //因为是在同一个包里面使用可以使用，所以即使是protected也没有问题，但是我们后面的重写不是在一个包里面使用，因此将它修改为public
+  public boolean accept() {
     return sign;
   }
 
@@ -59,6 +63,6 @@ public abstract class RegexRule {
    * @return <code>true</code> if the specified url matches this rule, otherwise
    *         <code>false</code>.
    */
-  protected abstract boolean match(String url);
-
+//  protected abstract boolean match(String url);
+   public abstract boolean match(String url);
 }

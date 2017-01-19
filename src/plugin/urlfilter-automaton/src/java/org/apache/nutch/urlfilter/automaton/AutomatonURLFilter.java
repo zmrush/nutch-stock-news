@@ -99,7 +99,7 @@ public class AutomatonURLFilter extends RegexURLFilterBase {
       automaton = new RunAutomaton(new RegExp(regex, RegExp.ALL).toAutomaton());
     }
 
-    protected boolean match(String url) {
+    public boolean match(String url) {
       return automaton.run(url);
     }
   }

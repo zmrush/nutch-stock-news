@@ -32,10 +32,13 @@ import org.apache.nutch.storage.WebPage;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.*;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,29 +110,54 @@ public class HttpResponse implements Response {
       socket.connect(sockAddr, http.getTimeout());
 
       if (scheme == Scheme.HTTPS) {
-        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory
-            .getDefault();
-        SSLSocket sslsocket = (SSLSocket) factory.createSocket(socket,
-            sockHost, sockPort, true);
-        sslsocket.setUseClientMode(true);
+//        SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory
+//            .getDefault();
+//        SSLSocket sslsocket = (SSLSocket) factory.createSocket(socket,
+//            sockHost, sockPort, true);
+//        sslsocket.setUseClientMode(true);
+//
+//        // Get the protocols and ciphers supported by this JVM
+//        Set<String> protocols = new HashSet<String>(Arrays.asList(sslsocket
+//            .getSupportedProtocols()));
+//        Set<String> ciphers = new HashSet<String>(Arrays.asList(sslsocket
+//            .getSupportedCipherSuites()));
+//
+//        // Intersect with preferred protocols and ciphers
+//        protocols.retainAll(http.getTlsPreferredProtocols());
+//        ciphers.retainAll(http.getTlsPreferredCipherSuites());
+//
+//        sslsocket.setEnabledProtocols(protocols.toArray(new String[protocols
+//            .size()]));
+//        sslsocket.setEnabledCipherSuites(ciphers.toArray(new String[ciphers
+//            .size()]));
+//
+//        sslsocket.startHandshake();
+//        socket = sslsocket;
+        SSLContext sslContext = null;
+        sslContext = SSLContext.getInstance("TLS");
+        TrustManager tm = new X509TrustManager() {
+          @Override
+          public void checkClientTrusted(X509Certificate[] x509Certificates, String s)
+                  throws CertificateException {
+            System.out.println("client test");
+          }
 
-        // Get the protocols and ciphers supported by this JVM
-        Set<String> protocols = new HashSet<String>(Arrays.asList(sslsocket
-            .getSupportedProtocols()));
-        Set<String> ciphers = new HashSet<String>(Arrays.asList(sslsocket
-            .getSupportedCipherSuites()));
+          @Override
+          public void checkServerTrusted(X509Certificate[] x509Certificates, String s)
+                  throws CertificateException {
+            System.out.println("server test");
+          }
 
-        // Intersect with preferred protocols and ciphers
-        protocols.retainAll(http.getTlsPreferredProtocols());
-        ciphers.retainAll(http.getTlsPreferredCipherSuites());
-
-        sslsocket.setEnabledProtocols(protocols.toArray(new String[protocols
-            .size()]));
-        sslsocket.setEnabledCipherSuites(ciphers.toArray(new String[ciphers
-            .size()]));
-
+          @Override
+          public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+          }
+        };
+        sslContext.init(null, new TrustManager[] {tm}, null);
+        socket = sslContext.getSocketFactory().createSocket(socket,
+                host, socket.getPort(), true);
+        SSLSocket sslsocket=(SSLSocket)socket;
         sslsocket.startHandshake();
-        socket = sslsocket;
       }
 
       conf = http.getConf();
@@ -232,7 +260,12 @@ public class HttpResponse implements Response {
         page.getHeaders().put(new Utf8(key), new Utf8(headers.get(key)));
       }
 
-    } finally {
+    }catch(NoSuchAlgorithmException e){
+      Http.LOG.error("ssl exception",e);
+    } catch(KeyManagementException e){
+      Http.LOG.error("ssl exception",e);
+    }
+    finally{
       if (socket != null)
         socket.close();
     }

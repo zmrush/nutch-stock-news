@@ -36,13 +36,13 @@
 #-.*(/[^/]+)/[^/]+\1/[^/]+\1/
 
 # accept anything else
-#仅接受包含新浪的
-+http://finance.sina.com.cn/stock/usstock/
-+shttp://roll.finance.sina.com.cn/s/channel.php\?ch=03
++^http://finance.sina.com.cn/stock/usstock/$
++^shttp://roll.finance.sina.com.cn/s/channel.php\?ch=03$
 +^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$
-+^http://(tech.sina.com.cn)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
+
++^http://seekingalpha.com/user/427396/comments$
 +^http://seekingalpha.com/news/[^/]+$
 +^http://seekingalpha.com/market-news
 
@@ -54,5 +54,43 @@
 +^http://www.nbd.com.cn/articles/[0-9\-]{10}/[^/]+$
 
 
-+^http://tech.qq.com/a/[^/]+$
-+^http://tech.qq.com/
++^http://tech.qq.com/a/[0-9]{8}/[^/]+$
++^http://tech.qq.com/$
+
++^shttp://www.marketwatch.com/$
++^http://www.marketwatch.com/story/[0-9a-z\-]+$
+
+
++^shttp://tech.163.com/$
++^http://tech.163.com/[0-9]+/[0-9]+/[0-9]+/[^/]+$
+
++^http://www.finet.com.cn/hwstocks/meiguogushi/$
++^http://www.finet.com.cn/hwstocks/meiguogushi/[0-9]+/[0-9]+/[^/]+$
+
++^http://www.cailianpress.com/subject.html$
++^http://www.cailianpress.com/company.html$
++^http://www.cailianpress.com/depth.html$
++^http://www.cailianpress.com/single/[^/]+$
+
++^https://www.huxiu.com/$
++^https://www.huxiu.com/article/[^/]+$
+
++^http://www.yicai.com/news/technology/$
++^http://www.yicai.com/news/[^/]+$
+
++^http://kuaixun.stcn.com/index.shtml$
++^http://kuaixun.stcn.com/[0-9]{4}/[0-9]+/[^/]+$
+
++^http://www.news.cn/fortune/$
++^http://news.xinhuanet.com/fortune/[0-9\-]+/[0-9]+/[^/]+$
+
++^http://www.techweb.com.cn/yuanchuang/$
++^http://www.techweb.com.cn/[a-zA-Z]+/[0-9\-]+/[^/]+$
+
++^http://news.fx168.com/top/stock/index.shtml$
++^http://na.fx168.com/[a-zA-Z]+/[0-9]+/[^/]+$
+
++^http://cn.reuters.com/news/archive/topic-us-ind-equities?view=page$
++^http://cn.reuters.com/article/[^/]+$
+
+

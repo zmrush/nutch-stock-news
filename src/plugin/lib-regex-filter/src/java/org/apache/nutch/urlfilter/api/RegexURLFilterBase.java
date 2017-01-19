@@ -63,7 +63,7 @@ public abstract class RegexURLFilterBase implements URLFilter {
       .getLogger(RegexURLFilterBase.class);
 
   /** An array of applicable rules */
-  private List<RegexRule> rules;
+  protected List<RegexRule> rules;
 
   /** The current configuration */
   private Configuration conf;

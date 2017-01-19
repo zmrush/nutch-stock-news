@@ -15,11 +15,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<plugin id="parse-qqtech" name="qqtech" version="1.0.0"
+<plugin id="parse-urlfilter" name="Url Parsing Filter" version="1.0.0"
   provider-name="nutch.org">
 
   <runtime>
-    <library name="parse-qqtech.jar">
+    <library name="parse-urlfilter.jar">
       <export name="*" />
     </library>
   </runtime>
@@ -29,11 +29,11 @@
     <import plugin="lib-regex-filter"/>
   </requires>
 
-  <extension id="org.apache.nutch.parse.qqtech"
-    name="qqtech"
+  <extension id="org.apache.nutch.parse.urlfiter"
+    name="Nutch Url Parsing Filter"
     point="org.apache.nutch.parse.ParseFilter">
-    <implementation id="QQTechFilter"
-      class="org.apache.nutch.parse.qqtech.QQTechFilter" />
+    <implementation id="UrlParsingFilter"
+      class="org.apache.nutch.parse.AllParsingFilter" />
   </extension>
 
 </plugin>
