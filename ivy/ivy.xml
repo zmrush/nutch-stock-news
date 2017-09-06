@@ -114,6 +114,7 @@
     <!-- Uncomment this to use HBase as Gora backend. -->
     <dependency org="org.apache.hbase" name="hbase-common" rev="1.0.0-cdh5.4.7" conf="*->default" />
     <dependency org="org.apache.hbase" name="hbase-client" rev="1.0.0-cdh5.4.7" conf="*->default" />
+    <dependency org="org.apache.hbase" name="hbase-server" rev="1.0.0-cdh5.4.7" conf="*->default" />
     <dependency org="org.apache.gora" name="gora-hbase" rev="0.6.1" conf="*->default" />
     <!-- Uncomment this to use Accumulo as Gora backend. -->
     <!--
