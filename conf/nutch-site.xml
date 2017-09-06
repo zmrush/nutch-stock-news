@@ -95,12 +95,12 @@
 	   <property>
 			<name>elastic.host</name>
 			<!--<value>10.100.138.172</value>-->
-		   <value>toumira-es.creditease.corp</value>
+		   <value>10.130.99.112</value>
 		</property>
 		<property>
 			<name>elastic.port</name>
 			<!--<value>9300</value>-->
-			<value>9302</value>
+			<value>9300</value>
 		</property>
 		<property>
 			<name>elastic.cluster</name>

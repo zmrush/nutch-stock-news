@@ -92,13 +92,13 @@ public class AllParsingFilter extends RegexURLFilterBase implements ParseFilter 
       String[] timeParts=parts[1].split("&");
       for(int i=0;i<timeParts.length;i++){
         String[] keyValue=timeParts[i].split("=");
-        timeRegex.put(keyValue[0],keyValue[1]);
+        timeRegex.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
       }
       //----------------------------------------------------------------
       String[] textParts=parts[2].split("&");
       for(int i=0;i<textParts.length;i++){
         String[] keyValue=textParts[i].split("=");
-        textRegex.put(keyValue[0],keyValue[1]);
+        textRegex.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
       }
       //----------------------------------------------------------------
       String[] titleParts=parts[3].split("&");
@@ -247,12 +247,12 @@ public class AllParsingFilter extends RegexURLFilterBase implements ParseFilter 
         }
       }
       if(rule.getTimeRegex().get("nodeName").equalsIgnoreCase(nodeName)){
-        if(currentNode.getAttributes().getNamedItem(rule.getTimeRegex().get("attribute"))!=null && currentNode.getAttributes().getNamedItem(rule.getTimeRegex().get("attribute")).getNodeValue().equalsIgnoreCase(rule.getTimeRegex().get("value"))){
+        if(rule.getTimeRegex().get("attribute").equals("") || (currentNode.getAttributes().getNamedItem(rule.getTimeRegex().get("attribute"))!=null && currentNode.getAttributes().getNamedItem(rule.getTimeRegex().get("attribute")).getNodeValue().equalsIgnoreCase(rule.getTimeRegex().get("value")))){
           combine.time= String.valueOf(TimeUtils.convert2time(currentNode.getTextContent().replace("\\s+", " ").trim()));
         }
       }
       if(rule.getTextRegex().get("nodeName").equalsIgnoreCase(nodeName)){
-        if(currentNode.getAttributes().getNamedItem(rule.getTextRegex().get("attribute"))!=null && currentNode.getAttributes().getNamedItem(rule.getTextRegex().get("attribute")).getNodeValue().equalsIgnoreCase(rule.getTextRegex().get("value"))){
+        if(rule.getTextRegex().get("attribute").equals("") || (currentNode.getAttributes().getNamedItem(rule.getTextRegex().get("attribute"))!=null && currentNode.getAttributes().getNamedItem(rule.getTextRegex().get("attribute")).getNodeValue().equalsIgnoreCase(rule.getTextRegex().get("value")))){
           combine.text= PageUtils.pasteAll(currentNode,url);
           break;
         }

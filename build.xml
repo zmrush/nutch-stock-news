@@ -20,8 +20,8 @@
 
  <!-- Load all the default properties, and any the user wants -->
  <!-- to contribute (without having to type -D or edit this file -->
- <property file="${user.home}/build.properties" />
- <property file="${basedir}/build.properties" />
+ <!--<property file="${user.home}/build.properties" />-->
+ <!--<property file="${basedir}/build.properties" />-->
  <property file="${basedir}/default.properties" />
  <property name="test.junit.output.format" value="plain" />
  <property name="release.dir" value="${build.dir}/release" />

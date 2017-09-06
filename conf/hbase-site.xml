@@ -4,7 +4,7 @@
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://nameservice1/hbase</value>
+    <value>hdfs://dp-yixin/hbase</value>
   </property>
   <property>
     <name>hbase.replication</name>
@@ -60,7 +60,7 @@
   </property>
   <property>
     <name>hbase.security.authentication</name>
-    <value>simple</value>
+    <value>kerberos</value>
   </property>
   <property>
     <name>zookeeper.session.timeout</name>
@@ -76,10 +76,22 @@
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>zc-175.yixin.com,zc-174.yixin.com,zc-173.yixin.com</value>
+    <value>dp12.yixin.com,dp11.yixin.com,dp17.yixin.com</value>
   </property>
   <property>
     <name>hbase.zookeeper.property.clientPort</name>
     <value>2181</value>
+  </property>
+  <property>
+    <name>hbase.master.kerberos.principal</name>
+    <value>hbase/_HOST@YIXIN.COM</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.kerberos.principal</name>
+    <value>hbase/_HOST@YIXIN.COM</value>
+  </property>
+  <property>
+    <name>hbase.thrift.kerberos.principal</name>
+    <value>hbase/_HOST@YIXIN.COM</value>
   </property>
 </configuration>

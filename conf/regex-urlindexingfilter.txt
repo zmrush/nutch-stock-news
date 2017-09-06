@@ -1,6 +1,7 @@
 +^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)$
 +^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$
++^http://tech.sina.com.cn/[a-z]+/[0-9\-]+/[^/]+$
 +^http://seekingalpha.com/news/[^/]+$
 +^http://www.investors.com/news/technology/click/[^/]+/$
 +^http://www.investors.com/news/technology/[^/]+/$
@@ -19,3 +20,10 @@
 +^http://www.techweb.com.cn/[a-zA-Z]+/[0-9\-]+/[^/]+$
 +^http://na.fx168.com/[a-zA-Z]+/[0-9]+/[^/]+$
 +^http://cn.reuters.com/article/[^/]+$
++^http://www.etftrends.com/[0-9]{4}/[0-9]{2}/[^/]+$
++^http://etfdailynews.com/[0-9]{4}/[0-9]{2}/[0-9]{2}/[^/]+$
++^http://www.tmtpost.com/[0-9]+.html$
++^http://usstock.jrj.com.cn/[0-9]{4}/[0-9]{2}/[0-9]+.shtml$
++^http://www.prnasia.com/story/[0-9\-]+.shtml$
++^+^http://www.investopedia.com/news/[^/]+/$
++^http://stock.qq.com/[a-zA-Z]+/[0-9]{8}/[^/]+$
