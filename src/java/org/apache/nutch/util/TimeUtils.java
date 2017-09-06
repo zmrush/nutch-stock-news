@@ -15,12 +15,15 @@ public class TimeUtils {
     static final Pattern pattern2=Pattern.compile("[0-9]{4}年[0-9]{2}月[0-9]{2}日 [0-9]{2}:[0-9]{2}");
     static final Pattern pattern3=Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}");
     static final Pattern pattern4=Pattern.compile("[a-zA-Z]{3}. [0-9]{2}, [0-9]{4} [0-9]{1,2}:[0-9]{2} (A|P)M ET");
-    static final Pattern pattern5=Pattern.compile("[0-9]{2}/[0-9]{2}/[0-9]{4}");
+    static final Pattern pattern5=Pattern.compile("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}");
     static final Pattern pattern6=Pattern.compile("[0-9]{1,2}:[0-9]{2} (A|P)M ET");
     static final Pattern pattern7=Pattern.compile("[a-zA-Z]{3} [0-9]{2}, [0-9]{4} [0-9]{1,2}:[0-9]{2} (a|p).m. ET");
     static final Pattern pattern8=Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}");
     static final Pattern pattern9=Pattern.compile("[0-9]{4}.[0-9]{2}.[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}");
     static final Pattern pattern10=Pattern.compile("[0-9]{4}年 [0-9]{2}月 [0-9]{1,2}日.*[0-9]{2}:[0-9]{2} BJT");
+    static final Pattern pattern11=Pattern.compile("[a-zA-Z]+ [0-9]{2},[0-9]{4} at [0-9]{1,2}:[0-9]{2} (a|p)m");
+    static final Pattern pattern12=Pattern.compile("[a-zA-Z]+ [0-9]{2}, [0-9]{4} [0-9]{1,2}:[0-9]{2}(a|p)m");
+    static final Pattern pattern13=Pattern.compile("[a-zA-Z]+ [0-9]{2}, [0-9]{4} — [0-9]{1,2}:[0-9]{2} (A|P)M E(D|S)T");
     public static long convert2time(String input){
         Matcher matcher=null;
         try {
@@ -82,6 +85,23 @@ public class TimeUtils {
                 Date date=simpleDateFormat.parse(sb.toString());
                 return date.getTime();
 
+            }else if((matcher=pattern11.matcher(input)).find()){
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd, yyyy h:mm a z", Locale.ENGLISH);
+                input=matcher.group(0)+" EDT";
+                input.replace("at","");
+                Date date=simpleDateFormat.parse(input);
+                return date.getTime();
+            }else if((matcher=pattern12.matcher(input)).find()){
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd, yyyy h:mma z", Locale.ENGLISH);
+                input=matcher.group(0)+" EDT";
+                Date date=simpleDateFormat.parse(input);
+                return date.getTime();
+            }else if((matcher=pattern13.matcher(input)).find()){
+                input=matcher.group(0);
+                input=input.replace(" — "," ");
+                SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMM dd, yyyy h:mm a z", Locale.ENGLISH);
+                Date date=simpleDateFormat.parse(input);
+                return date.getTime();
             }
             else {
                 return new Date().getTime();
@@ -89,5 +109,13 @@ public class TimeUtils {
         }catch (Throwable throwable){
             return new Date().getTime();
         }
+    }
+    public static void main(String[] args) throws Exception{
+        String input="March 14, 2017 8:35am INDEXDJX:.DJI NYSE:DIA";
+        boolean isMatch=pattern12.matcher(input).find();
+        input=input.replace("at","");
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMM dd, yyyy h:mm a z", Locale.ENGLISH);
+        Date date=simpleDateFormat.parse(input);
+        System.out.println("ends");
     }
 }

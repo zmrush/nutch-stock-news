@@ -26,6 +26,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Collection;
 
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.mapreduce.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +178,7 @@ public class GeneratorJob extends NutchTool implements Tool {
       batchId = randomBatchId();
     }
     getConf().set(BATCH_ID, batchId);
-
+    getConf().addResource("hbase-site.xml");
     // map to inverted subset due for fetch, sort by score
     Long topN = null;
     try {
@@ -223,7 +224,13 @@ public class GeneratorJob extends NutchTool implements Tool {
     StorageUtils.initMapperJob(currentJob, fields, SelectorEntry.class,
         WebPage.class, GeneratorMapper.class, SelectorEntryPartitioner.class,
         true);
+
+
     StorageUtils.initReducerJob(currentJob, GeneratorReducer.class);
+    //这个initcredential还不能随便放在别的地方，必须放在map，reduce设置了之后，然后再log页面要打印出下面的语句才不会有问题
+    //17/09/06 16:06:25 INFO mapreduce.JobSubmitter: Kind: HDFS_DELEGATION_TOKEN, Service: ha-hdfs:dp-yixin, Ident: (HDFS_DELEGATION_TOKEN token 1643327 for mingzhu7)
+    //17/09/06 16:06:25 INFO mapreduce.JobSubmitter: Kind: HBASE_AUTH_TOKEN, Service: df1b3c25-b3b6-4ef2-8eb9-1cebbb9e1650, Ident: (org.apache.hadoop.hbase.security.token.AuthenticationTokenIdentifier@6)
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.waitForCompletion(true);
     ToolUtil.recordJobStatus(null, currentJob, results);
     results.put(BATCH_ID, getConf().get(BATCH_ID));

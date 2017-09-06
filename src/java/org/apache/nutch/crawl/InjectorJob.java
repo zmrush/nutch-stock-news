@@ -17,16 +17,24 @@
 package org.apache.nutch.crawl;
 
 import org.apache.avro.util.Utf8;
+import org.apache.gora.mapreduce.GoraMapReduceUtils;
 import org.apache.gora.mapreduce.GoraOutputFormat;
 import org.apache.gora.persistency.Persistent;
 import org.apache.gora.store.DataStore;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
@@ -88,10 +96,12 @@ public class InjectorJob extends NutchTool implements Tool {
     private URLFilters filters;
     private ScoringFilters scfilters;
     private long curTime;
+    //private HTable table;
 
     @Override
     protected void setup(Context context) throws IOException,
         InterruptedException {
+//      this.table=new HTable(context.getConfiguration(),"toumira_news:financial-new_webpage");
       urlNormalizers = new URLNormalizers(context.getConfiguration(),
           URLNormalizers.SCOPE_INJECT);
       interval = context.getConfiguration().getInt("db.fetch.interval.default",
@@ -189,6 +199,9 @@ public class InjectorJob extends NutchTool implements Tool {
             .put(DbUpdaterJob.DISTANCE, new Utf8(String.valueOf(0)));
         Mark.INJECT_MARK.putMark(row, YES_STRING);
         context.write(reversedUrl, row);
+//        Put put=new Put(reversedUrl.getBytes());
+//        put.addColumn("f".getBytes(),"bas".getBytes(),reversedUrl.getBytes());
+//        table.put(put);
       }
     }
   }
@@ -201,7 +214,13 @@ public class InjectorJob extends NutchTool implements Tool {
   }
 
   public Map<String, Object> run(Map<String, Object> args) throws Exception {
+    //--------------------------------------------------------------
+//    UserGroupInformation.setConfiguration(getConf());
+//    UserGroupInformation.loginUserFromKeytab("mingzhu7/user", "/home/mingzhu7/mingzhu7.keytab");
+    //----------------------------------------------------------------
     getConf().setLong("injector.current.time", System.currentTimeMillis());
+    getConf().addResource("hbase-site.xml");
+//    getConf().setBoolean("mapreduce.job.complete.cancel.delegation.tokens",false);
     Path input;
     Object path = args.get(Nutch.ARG_SEEDDIR);
     if (path instanceof Path) {
@@ -216,18 +235,25 @@ public class InjectorJob extends NutchTool implements Tool {
     currentJob.setMapperClass(UrlMapper.class);
     currentJob.setMapOutputKeyClass(String.class);
     currentJob.setMapOutputValueClass(WebPage.class);
+    //----------------------------------------------------------------------------
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.setOutputFormatClass(GoraOutputFormat.class);
-
     DataStore<String, WebPage> store = StorageUtils.createWebStore(
         currentJob.getConfiguration(), String.class, WebPage.class);
     GoraOutputFormat.setOutput(currentJob, store, true);
-
+    //-----------------------------------------------------------------------------
+//    currentJob.setOutputFormatClass(TextOutputFormat.class);
+//    TextOutputFormat.setOutputPath(currentJob,new Path("/user/mingzhu7/nutch-output"));
+//    currentJob.setOutputFormatClass(NullOutputFormat.class);
+    //-----------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
     // NUTCH-1471 Make explicit which datastore class we use
     Class<? extends DataStore<Object, Persistent>> dataStoreClass = StorageUtils
         .getDataStoreClass(currentJob.getConfiguration());
     LOG.info("InjectorJob: Using " + dataStoreClass
         + " as the Gora storage class.");
-
+    //---------------------------------------------------------------------------------
     currentJob.setReducerClass(Reducer.class);
     currentJob.setNumReduceTasks(0);
 

@@ -25,6 +25,7 @@ import java.util.Random;
 import org.apache.avro.util.Utf8;
 import org.apache.gora.filter.FilterOp;
 import org.apache.gora.filter.MapFieldValueFilter;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -159,7 +160,7 @@ public class FetcherJob extends NutchTool implements Tool {
     Integer threads = (Integer) args.get(Nutch.ARG_THREADS);
     Boolean shouldResume = (Boolean) args.get(Nutch.ARG_RESUME);
     Integer numTasks = (Integer) args.get(Nutch.ARG_NUMTASKS);
-
+    getConf().addResource("hbase-site.xml");
     if (threads != null && threads > 0) {
       getConf().setInt(THREADS_KEY, threads);
     }
@@ -187,7 +188,6 @@ public class FetcherJob extends NutchTool implements Tool {
         + getConf().getLong("fetcher.timelimit", -1));
     numJobs = 1;
     currentJob = NutchJob.getInstance(getConf(), "fetch");
-
     // for politeness, don't permit parallel execution of a single task
     currentJob.setReduceSpeculativeExecution(false);
 
@@ -203,6 +203,7 @@ public class FetcherJob extends NutchTool implements Tool {
     } else {
       currentJob.setNumReduceTasks(numTasks);
     }
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.waitForCompletion(true);
     ToolUtil.recordJobStatus(null, currentJob, results);
     return results;
@@ -311,7 +312,7 @@ public class FetcherJob extends NutchTool implements Tool {
         throw new IllegalArgumentException("arg " + args[i] + " not recognized");
       }
     }
-    //最后我们只有在这里进行设置才能将这几个参数进行正确的设置
+    //mapred-site.xml在提交节点的配置文件才会被自动加载，如果想要被加载，那么就需要地addResource，或者采用下面这种方式进行加载覆盖
     getConf().set("yarn.scheduler.maximum-allocation-mb","8192");
     getConf().set("mapreduce.reduce.memory.mb","4096");
     getConf().set("mapreduce.reduce.java.opts","-Djava.net.preferIPv4Stack=true -Xmx3072m");

@@ -28,6 +28,7 @@ import org.apache.gora.mapreduce.GoraMapper;
 import org.apache.gora.mapreduce.StringComparator;
 import org.apache.gora.store.DataStore;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.RawComparator;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.StringUtils;
@@ -143,8 +144,10 @@ public class IndexingJob extends NutchTool implements Tool {
 
     Configuration conf = getConf();
     conf.set(GeneratorJob.BATCH_ID, batchId);
-
+    conf.addResource("hbase-site.xml");
     Job job = NutchJob.getInstance(conf, "Indexer");
+
+
     // TODO: Figure out why this needs to be here
     job.getConfiguration().setClass("mapred.output.key.comparator.class",
         StringComparator.class, RawComparator.class);
@@ -156,7 +159,7 @@ public class IndexingJob extends NutchTool implements Tool {
         IndexerMapper.class, batchIdFilter);
     job.setNumReduceTasks(0);
     job.setOutputFormatClass(IndexerOutputFormat.class);
-
+    TableMapReduceUtil.initCredentials(job);
     job.waitForCompletion(true);
     ToolUtil.recordJobStatus(null, job, results);
     return results;

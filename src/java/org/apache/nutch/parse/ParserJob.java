@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.avro.util.Utf8;
 import org.apache.gora.filter.MapFieldValueFilter;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -234,7 +235,7 @@ public class ParserJob extends NutchTool implements Tool {
     String batchId = (String) args.get(Nutch.ARG_BATCH);
     Boolean shouldResume = (Boolean) args.get(Nutch.ARG_RESUME);
     Boolean force = (Boolean) args.get(Nutch.ARG_FORCE);
-
+    getConf().addResource("hbase-site.xml");
     if (batchId != null) {
       getConf().set(GeneratorJob.BATCH_ID, batchId);
     }
@@ -254,13 +255,14 @@ public class ParserJob extends NutchTool implements Tool {
     }
     currentJob = NutchJob.getInstance(getConf(), "parse");
 
+
     Collection<WebPage.Field> fields = getFields(currentJob);
     MapFieldValueFilter<String, WebPage> batchIdFilter = getBatchIdFilter(batchId);
     StorageUtils.initMapperJob(currentJob, fields, String.class, WebPage.class,
         ParserMapper.class, batchIdFilter);
     StorageUtils.initReducerJob(currentJob, IdentityPageReducer.class);
     currentJob.setNumReduceTasks(0);
-
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.waitForCompletion(true);
     ToolUtil.recordJobStatus(null, currentJob, results);
     return results;

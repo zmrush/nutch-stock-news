@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.gora.mapreduce.GoraMapper;
@@ -135,6 +137,8 @@ public class CleaningJob extends NutchTool implements Tool {
   public Map<String, Object> run(Map<String, Object> args) throws Exception {
     getConf().setBoolean(ARG_COMMIT, (Boolean) args.get(ARG_COMMIT));
     currentJob = NutchJob.getInstance(getConf(), "CleaningJob");
+    getConf().addResource("hbase-site.xml");
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.getConfiguration().setClass(
         "mapred.output.key.comparator.class", StringComparator.class,
         RawComparator.class);

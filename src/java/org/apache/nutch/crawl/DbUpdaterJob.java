@@ -25,6 +25,7 @@ import org.apache.avro.util.Utf8;
 import org.apache.gora.filter.FilterOp;
 import org.apache.gora.filter.MapFieldValueFilter;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.UrlWithScore.UrlOnlyPartitioner;
@@ -86,12 +87,15 @@ public class DbUpdaterJob extends NutchTool implements Tool {
       batchId = Nutch.ALL_BATCH_ID_STR;
     }
     getConf().set(Nutch.BATCH_NAME_KEY, batchId);
+    getConf().addResource("hbase-site.xml");
     // job.setBoolean(ALL, updateAll);
     ScoringFilters scoringFilters = new ScoringFilters(getConf());
     HashSet<WebPage.Field> fields = new HashSet<WebPage.Field>(FIELDS);
     fields.addAll(scoringFilters.getFields());
 
     currentJob = NutchJob.getInstance(getConf(), "update-table");
+
+
     if (crawlId != null) {
       currentJob.getConfiguration().set(Nutch.CRAWL_ID_KEY, crawlId);
     }
@@ -108,6 +112,7 @@ public class DbUpdaterJob extends NutchTool implements Tool {
     StorageUtils.initMapperJob(currentJob, fields, UrlWithScore.class,
         NutchWritable.class, DbUpdateMapper.class, batchIdFilter);
     StorageUtils.initReducerJob(currentJob, DbUpdateReducer.class);
+    TableMapReduceUtil.initCredentials(currentJob);
     currentJob.waitForCompletion(true);
     ToolUtil.recordJobStatus(null, currentJob, results);
     return results;
