@@ -1,7 +1,7 @@
 +^http://finance.sina.com.cn/roll(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=class&value=time-source#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
 +^http://((finance).sina.com.cn/stock/usstock)(/[^/]+)(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=id&value=pub_date#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
 +^http://(finance.sina.com.cn/zl)(/[^/]+)(/[0-9\-]+)(/[^/]+)$#nodeName=span&attribute=id&value=pub_date#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=artibodyTitle#新浪财经
-+^http://tech.sina.com.cn/[a-z]+/[0-9\-]+/[^/]+$#nodeName=span&attribute=class&value=titer#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=id&value=main_title#新浪科技
++^http://tech.sina.com.cn/[a-z]+/[0-9\-]+/[^/]+$#nodeName=span&attribute=class&value=date#nodeName=div&attribute=id&value=artibody#nodeName=h1&attribute=class&value=main-title#新浪科技
 +^http://www.investors.com/news/technology/[^/]+/$#nodeName=li&attribute=class&value=post-time#nodeName=div&attribute=class&value=single-post-content post-content drop-cap#nodeName=h1&attribute=class&value=header1#investor.com
 +^http://www.investors.com/news/technology/click/[^/]+/$#nodeName=li&attribute=class&value=post-time#nodeName=div&attribute=class&value=single-post-content post-content drop-cap#nodeName=h1&attribute=class&value=header1#investor.com
 +^http://tech.qq.com/a/[0-9]{8}/[^/]+$#nodeName=span&attribute=class&value=pubTime#nodeName=div&attribute=id&value=Cnt-Main-Article-QQ#nodeName=h1&attribute=&value=#腾讯科技
