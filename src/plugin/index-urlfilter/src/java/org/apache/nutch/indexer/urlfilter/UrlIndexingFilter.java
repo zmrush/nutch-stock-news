@@ -55,6 +55,8 @@ public class UrlIndexingFilter extends RegexURLFilterBase implements IndexingFil
 
   static {
     FIELDS.add(WebPage.Field.HEADERS);
+    FIELDS.add(WebPage.Field.TITLE);
+    FIELDS.add(WebPage.Field.TEXT);
   }
 //-------------------------------------------------------------------------------------
 public UrlIndexingFilter() {
@@ -134,7 +136,14 @@ public UrlIndexingFilter() {
       doc.add("source",page.getHeaders().get(new Utf8("Source")).toString());
       //doc.removeField("tstamp");
       //不同的来源可能时间格式不一样，因此需要详细设计
-      if( page.getHeaders().get(new Utf8("EditTime"))!=null && !page.getHeaders().get(new Utf8("EditTime")).equals("") ) {
+      Utf8 emptyUtf=new Utf8("");
+      if(page.getHeaders().get(new Utf8("EditTime"))==null || page.getHeaders().get(new Utf8("EditTime")).equals(emptyUtf) || page.getTitle()==null || emptyUtf.equals(page.getTitle())
+              || page.getText()==null || emptyUtf.equals(page.getText())){
+
+        LOG.info("refuse url:"+url);
+        return null;
+      }
+      if( page.getHeaders().get(new Utf8("EditTime"))!=null && !page.getHeaders().get(new Utf8("EditTime")).equals(emptyUtf) ) {
         doc.add("estamp", DateUtil.getThreadLocalDateFormat().format(new Date( Long.valueOf(page.getHeaders().get(new Utf8("EditTime")).toString()))) );
       }else{
         if(page.getPrevFetchTime() != null) {

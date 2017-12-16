@@ -22,6 +22,13 @@
     <library name="parse-urlfilter.jar">
       <export name="*" />
     </library>
+    <library name="httpclient-4.5.1.jar">
+    </library>
+    <library name="httpcore-4.4.3.jar">
+    </library>
+    <library name="fastjson-1.2.4.jar">
+    </library>
+
   </runtime>
 
   <requires>
