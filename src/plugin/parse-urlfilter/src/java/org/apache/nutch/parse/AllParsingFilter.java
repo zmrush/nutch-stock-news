@@ -247,8 +247,8 @@ public class AllParsingFilter extends RegexURLFilterBase implements ParseFilter 
     return newParse;
   }
   public static Logger logger=LoggerFactory.getLogger(AllParsingFilter.class);
-  public final static String USERNAME = "toumira_tech@creditease.cn";
-  public final static String PASSWORD = "Ri!75@yjmt9ro";
+  public final static String USERNAME = "";
+  public final static String PASSWORD = "";
   public static ConcurrentHashSet<String> sources=new ConcurrentHashSet<String>();
   private static String appid;
   private static String posturl;
