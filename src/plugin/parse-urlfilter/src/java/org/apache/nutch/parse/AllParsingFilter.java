@@ -235,7 +235,7 @@ public class AllParsingFilter extends RegexURLFilterBase implements ParseFilter 
              new Thread(new Runnable() {
                @Override
                public void run() {
-                 send("线上爬取新闻发生问题", source + "的规则发生变化,url 是:"+url2, Sets.newHashSet("mingzhu7@creditease.cn"),Sets.newHashSet("mingzhu7@creditease.cn"));
+                 send("线上爬取新闻发生问题", source + "的规则发生变化,url 是:"+url2, Sets.newHashSet("591465704@qq.com"),Sets.newHashSet("591465704@qq.com"));
                }
              }).start();
            }
